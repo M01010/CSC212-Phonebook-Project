@@ -1,3 +1,5 @@
+package models;
+
 public class Event implements Comparable {
     @Override
     public boolean equals(Object obj) {
