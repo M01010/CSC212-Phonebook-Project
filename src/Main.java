@@ -1,5 +1,6 @@
 import Conditions.Condition;
 import Conditions.EqualsCondition;
+import Conditions.EqulasNameCondition;
 import LinkedList.LinkedList;
 import models.Contact;
 
@@ -20,6 +21,9 @@ public class Main {
         l1.add(C1);
 
         l1.display();
+
+       System.out.println(l1.searchElement(new EqulasNameCondition("Ahmed"))); 
+
 
     }
 }

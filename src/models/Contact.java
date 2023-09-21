@@ -4,21 +4,21 @@ package models;
 
 public class Contact implements Comparable<Contact> {
 
-    public String Cname;
-    public String CphoneNumber;
-    public String Cemail;
-    public String Caddress;
-    public String CBrithDate;
-    public String Cnotes;
+    public String name;
+    public String phoneNumber;
+    public String email;
+    public String address;
+    public String BrithDate;
+    public String notes;
 
     public Contact(String name, String phoneNumber, String email,String address,
     String brithDate,String notes){
-        this.Cname = name;
-        this.Caddress=address;
-        this.CBrithDate = brithDate;
-        this.Cnotes = notes;
-        this.Cemail=email;
-        this.CphoneNumber=phoneNumber;
+        this.name = name;
+        this.address=address;
+        this.BrithDate = brithDate;
+        this.notes = notes;
+        this.email=email;
+        this.phoneNumber=phoneNumber;
 
     }
 
@@ -27,12 +27,12 @@ public class Contact implements Comparable<Contact> {
    */
 
     public int compareTo(Contact o) {
-        return this.Cname.compareTo(o.Cname) ;
+        return this.name.compareTo(o.name) ;
         
        
     }
     public String toString(){
-        return Cname;
+        return name;
     }
    
 
