@@ -6,7 +6,7 @@ import models.Contact;
 public class Main {
     public static void main(String[] args) {
         Contact C1 = new Contact("Ahmed", "0565", "A@gmail,com", "g", "3/3", "n");
-        Contact C2 = new Contact("Zyiad",   "0563", "Z@gmail.com", "h", "5/2", "n");
+        Contact C2 = new Contact("Ziyad",   "0563", "Z@gmail.com", "h", "5/2", "n");
         Contact C3 = new Contact("Ba", "057", "B@gmail.com", "f", "9/5", "n");
 
 

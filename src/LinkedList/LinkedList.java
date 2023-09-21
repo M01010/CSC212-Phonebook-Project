@@ -19,7 +19,7 @@ public class LinkedList<T extends Comparable<T>> {
     }
 
     private void insert(T data) {
-        Node<T> temp = new Node<T>(data);
+        Node<T> temp = new Node<>(data);
         if (Empty()) {
             head = current = temp;
         } else {
@@ -73,7 +73,7 @@ public class LinkedList<T extends Comparable<T>> {
             }
             temp = temp.getNext();
         }
-        throw new RuntimeException();
+        return null;
     }
 
     public LinkedList<T> searchElements(Condition<T> condition) {
@@ -96,7 +96,7 @@ public class LinkedList<T extends Comparable<T>> {
             }
             current = current.getNext();
         }
-        throw new RuntimeException();
+        return null;
     }
 
     public void display() {
