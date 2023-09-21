@@ -11,7 +11,7 @@ public class EqualsBirthdayCondition implements Condition<Contact> {
 
     @Override
     public boolean test(Contact data) {
-        return data.BrithDate.equalsIgnoreCase(Birthday);
+        return data.birthDate.equalsIgnoreCase(Birthday);
     }
     
 }
