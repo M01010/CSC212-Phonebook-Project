@@ -3,9 +3,9 @@ package Conditions;
 import models.Contact;
 
 public class EqualsAddressCondition implements Condition<Contact> {
-    private String address;
-    
-    public EqualsAddressCondition(String address){
+    private final String address;
+
+    public EqualsAddressCondition(String address) {
         this.address = address;
     }
 
@@ -13,6 +13,6 @@ public class EqualsAddressCondition implements Condition<Contact> {
     public boolean test(Contact data) {
         return data.address.equalsIgnoreCase(address);
     }
-    
-    
+
+
 }

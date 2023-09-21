@@ -1,13 +1,14 @@
 package models;
 
-public class Event implements Comparable {
+public class Event implements Comparable<Event> {
+
     @Override
-    public boolean equals(Object obj) {
-        return super.equals(obj);
+    public int compareTo(Event e) {
+        return 0;
     }
 
     @Override
-    public int compareTo(Object o) {
-        return 0;
+    public String toString() {
+        return super.toString();
     }
 }

@@ -50,13 +50,13 @@ public class LinkedList<T extends Comparable<T>> {
         }
         return res;
     }
+
     public void add(T data) {
         if (Empty() || head.getData().compareTo(data) >= 0) { // insert at head or before head
             Node<T> temp = new Node<>(data);
             temp.setNext(head);
             head = current = temp;
-        }
-        else {
+        } else {
             current = head;
             while (current.getNext() != null && current.getNext().getData().compareTo(data) <= 0) {
                 current = current.getNext();
@@ -102,7 +102,8 @@ public class LinkedList<T extends Comparable<T>> {
     public void display() {
         current = head;
         while (current != null) {
-            System.out.print(current.getData().toString() + " -> ");
+            System.out.println(current.getData());
+            System.out.println();
             current = current.getNext();
         }
         System.out.println();
