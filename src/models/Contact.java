@@ -5,7 +5,7 @@ package models;
 public class Contact implements Comparable<Contact> {
 
     public String Cname;
-    public int CphoneNumber;
+    public String CphoneNumber;
     public String Cemail;
     public String Caddress;
     public String CBrithDate;
@@ -17,6 +17,8 @@ public class Contact implements Comparable<Contact> {
         this.Caddress=address;
         this.CBrithDate = brithDate;
         this.Cnotes = notes;
+        this.Cemail=email;
+        this.CphoneNumber=phoneNumber;
 
     }
 
@@ -25,13 +27,12 @@ public class Contact implements Comparable<Contact> {
    */
 
     public int compareTo(Contact o) {
-        if(this.Cname.compareTo(o.Cname) == 0)
-        return 0;
-        if(this.Cname.compareTo(o.Cname) > 0)
-        return 1;
-
-        return -1;
-
+        return this.Cname.compareTo(o.Cname) ;
+        
+       
+    }
+    public String toString(){
+        return Cname;
     }
    
 
