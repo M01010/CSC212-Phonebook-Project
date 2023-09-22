@@ -16,6 +16,7 @@ public class PhonebookCLI {
     public void run() {
         boolean run = true;
         while (run) {
+            System.out.println();
             System.out.println("1. Add a contact");
             System.out.println("2. Search for a contact");
             System.out.println("3. Delete a contact");
@@ -24,6 +25,7 @@ public class PhonebookCLI {
             System.out.println("6. Print contacts by first name");
             System.out.println("7. Print all events alphabetically");
             System.out.println("8. Exit");
+            System.out.println();
             String userInput = inputService.getString("Enter your choice: ", new String[]{"1", "2", "3", "4", "5", "6", "7", "8"});
             if (userInput.equals("1")) {
                 addContact();
@@ -45,74 +47,6 @@ public class PhonebookCLI {
         }
     }
 
-    private void printContactsByFirstName() {
-        String name = inputService.getString("first name: ");
-        ContactFirstNameEquals cond = new ContactFirstNameEquals(name);
-        LinkedList<Contact> l = phonebook.filterContacts(cond);
-        if (l.Empty()) {
-            System.out.println("no results :(");
-        } else {
-            System.out.println("Contacts found!");
-            l.display();
-        }
-    }
-
-    private void printEventDetails() {
-        System.out.println("Enter search criteria: ");
-        System.out.println("1. contact name");
-        System.out.println("2. Event title");
-        String choice = inputService.getString("Enter your choice: ", new String[]{"1", "2"});
-        Condition<Event> cond = null;
-        if (choice.equals("1")) {
-            String name = inputService.getString("Enter the contact name: ");
-            cond = new EventTitleEquals(name);
-        }
-        if (choice.equals("2")) {
-            String title = inputService.getString("Enter the event title: ");
-            cond = new EventTitleEquals(title);
-        }
-        LinkedList<Event> l = phonebook.filterEvents(cond);
-        if (l.Empty()) {
-            System.out.println(" no results :(");
-        } else {
-            System.out.println("Events found!");
-            l.display();
-        }
-    }
-
-    private void scheduleEvent() {
-        String title = inputService.getString("Enter event title:");
-        String name = inputService.getString("Enter contact name: ");
-        String date = inputService.getString("Enter event date and time (MM/DD/YYYY HH:MM): ");
-        String location = inputService.getString("Enter event location: ");
-        Contact c = phonebook.searchContacts(new ContactNameEquals(name));
-        boolean added = phonebook.addEvent(new Event(title, c, date, location));
-        if (added) {
-            System.out.println("Event added successfully");
-        } else {
-            System.out.println("Cant add event, no user with that name");
-        }
-    }
-
-    private void deleteContact() {
-        Contact c = searchForContact();
-        if (c == null) {
-            System.out.println("no contact found :(");
-        } else {
-            System.out.println("Contact deleted!");
-            phonebook.deleteContact(new ContactNameEquals(c.getName()));
-        }
-    }
-
-    private void searchContact() {
-        Contact c = searchForContact();
-        if (c == null) {
-            System.out.println("no contact found :(");
-        } else {
-            System.out.println("Contact found!");
-            System.out.println(c);
-        }
-    }
 
     private void addContact() {
         String name = inputService.getString("Enter a name: ");
@@ -127,6 +61,26 @@ public class PhonebookCLI {
             System.out.println("Contact added successfully!");
         } else {
             System.out.println("Cant add Contact, already exists");
+        }
+    }
+
+    private void searchContact() {
+        Contact c = searchForContact();
+        if (c == null) {
+            System.out.println("no contact found :(");
+        } else {
+            System.out.println("Contact found!");
+            System.out.println(c);
+        }
+    }
+
+    private void deleteContact() {
+        Contact c = searchForContact();
+        if (c == null) {
+            System.out.println("no contact found :(");
+        } else {
+            System.out.println("Contact deleted!");
+            phonebook.deleteContact(new ContactNameEquals(c.getName()));
         }
     }
 
@@ -157,4 +111,55 @@ public class PhonebookCLI {
         }
         return phonebook.searchContacts(cond);
     }
+
+
+    private void scheduleEvent() {
+        String title = inputService.getString("Enter event title:");
+        String name = inputService.getString("Enter contact name: ");
+        String date = inputService.getString("Enter event date and time (MM/DD/YYYY HH:MM): ");
+        String location = inputService.getString("Enter event location: ");
+        Contact c = phonebook.searchContacts(new ContactNameEquals(name));
+        boolean added = phonebook.addEvent(new Event(title, c, date, location));
+        if (added) {
+            System.out.println("Event added successfully");
+        } else {
+            System.out.println("Cant add event, no user with that name");
+        }
+    }
+
+    private void printEventDetails() {
+        System.out.println("Enter search criteria: ");
+        System.out.println("1. contact name");
+        System.out.println("2. Event title");
+        String choice = inputService.getString("Enter your choice: ", new String[]{"1", "2"});
+        Condition<Event> cond = null;
+        if (choice.equals("1")) {
+            String name = inputService.getString("Enter the contact name: ");
+            cond = new EventContactNameEquals(name);
+        }
+        if (choice.equals("2")) {
+            String title = inputService.getString("Enter the event title: ");
+            cond = new EventTitleEquals(title);
+        }
+        LinkedList<Event> l = phonebook.filterEvents(cond);
+        if (l.Empty()) {
+            System.out.println(" no results :(");
+        } else {
+            System.out.println("Events found!");
+            l.display();
+        }
+    }
+
+    private void printContactsByFirstName() {
+        String name = inputService.getString("first name: ");
+        ContactFirstNameEquals cond = new ContactFirstNameEquals(name);
+        LinkedList<Contact> l = phonebook.filterContacts(cond);
+        if (l.Empty()) {
+            System.out.println("no results :(");
+        } else {
+            System.out.println("Contacts found!");
+            l.display();
+        }
+    }
+
 }
