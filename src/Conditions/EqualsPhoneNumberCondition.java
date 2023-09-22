@@ -4,15 +4,15 @@ import models.Contact;
 
 public class EqualsPhoneNumberCondition implements Condition<Contact> {
 
-    private final String PhoneNumber;
+    private final String phoneNumber;
 
-    public EqualsPhoneNumberCondition(String PhoneNumber) {
-        this.PhoneNumber = PhoneNumber;
+    public EqualsPhoneNumberCondition(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
     @Override
     public boolean test(Contact data) {
-        return data.phoneNumber.equalsIgnoreCase(PhoneNumber);
+        return data.getPhoneNumber().equalsIgnoreCase(phoneNumber);
     }
 
 }

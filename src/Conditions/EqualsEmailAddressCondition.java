@@ -12,7 +12,7 @@ public class EqualsEmailAddressCondition implements Condition<Contact> {
 
     @Override
     public boolean test(Contact data) {
-        return data.email.equalsIgnoreCase(email);
+        return data.getEmail().equalsIgnoreCase(email);
     }
 
 

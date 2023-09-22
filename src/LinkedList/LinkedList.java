@@ -29,8 +29,7 @@ public class LinkedList<T extends Comparable<T>> {
         }
     }
 
-    private T remove() {
-        T res = current.getData();
+    private void remove() {
         if (current == head) {
             head = head.getNext();
         } else {
@@ -48,7 +47,6 @@ public class LinkedList<T extends Comparable<T>> {
         if (Empty()) {
             current = null;
         }
-        return res;
     }
 
     public void add(T data) {
@@ -65,7 +63,7 @@ public class LinkedList<T extends Comparable<T>> {
         }
     }
 
-    public T searchElement(Condition<T> condition) {
+    public T search(Condition<T> condition) {
         Node<T> temp = head;
         while (temp != null) {
             if (condition.test(temp.getData())) {
@@ -76,7 +74,7 @@ public class LinkedList<T extends Comparable<T>> {
         return null;
     }
 
-    public LinkedList<T> searchElements(Condition<T> condition) {
+    public LinkedList<T> filter(Condition<T> condition) {
         LinkedList<T> l = new LinkedList<T>();
         current = head;
         while (current != null) {
@@ -88,15 +86,15 @@ public class LinkedList<T extends Comparable<T>> {
         return l;
     }
 
-    public T delete(Condition<T> condition) {
+    public void delete(Condition<T> condition) {
         current = head;
         while (current != null) {
             if (condition.test(current.getData())) {
-                return remove();
+                remove();
+                return;
             }
             current = current.getNext();
         }
-        return null;
     }
 
     public void display() {

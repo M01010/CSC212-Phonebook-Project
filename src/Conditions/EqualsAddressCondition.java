@@ -11,7 +11,7 @@ public class EqualsAddressCondition implements Condition<Contact> {
 
     @Override
     public boolean test(Contact data) {
-        return data.address.equalsIgnoreCase(address);
+        return data.getAddress().equalsIgnoreCase(address);
     }
 
 
