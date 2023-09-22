@@ -2,10 +2,10 @@ package Conditions;
 
 import models.Contact;
 
-public class ContactExistsCondition implements Condition<Contact> {
+public class ContactExists implements Condition<Contact> {
     private final Contact contact;
 
-    public ContactExistsCondition(Contact c) {
+    public ContactExists(Contact c) {
         this.contact = c;
     }
     @Override

@@ -2,10 +2,10 @@ package Conditions;
 
 import models.Contact;
 
-public class EqualsBirthdayCondition implements Condition<Contact> {
+public class ContactBirthdayEquals implements Condition<Contact> {
     private final String birthdate;
 
-    public EqualsBirthdayCondition(String birthdate) {
+    public ContactBirthdayEquals(String birthdate) {
         this.birthdate = birthdate;
     }
 

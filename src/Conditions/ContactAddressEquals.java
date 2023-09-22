@@ -2,10 +2,10 @@ package Conditions;
 
 import models.Contact;
 
-public class EqualsAddressCondition implements Condition<Contact> {
+public class ContactAddressEquals implements Condition<Contact> {
     private final String address;
 
-    public EqualsAddressCondition(String address) {
+    public ContactAddressEquals(String address) {
         this.address = address;
     }
 

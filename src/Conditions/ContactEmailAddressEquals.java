@@ -2,11 +2,11 @@ package Conditions;
 
 import models.Contact;
 
-public class EqualsEmailAddressCondition implements Condition<Contact> {
+public class ContactEmailAddressEquals implements Condition<Contact> {
 
     private final String email;
 
-    public EqualsEmailAddressCondition(String email) {
+    public ContactEmailAddressEquals(String email) {
         this.email = email;
     }
 

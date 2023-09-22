@@ -1,8 +1,9 @@
 package models;
 
 import Conditions.Condition;
-import Conditions.ContactExistsCondition;
-import Conditions.EqualsNameDateCondition;
+import Conditions.ContactExists;
+import Conditions.EventContactNameOrDateEquals;
+import Conditions.EventIsForContact;
 import LinkedList.LinkedList;
 
 public class Phonebook {
@@ -15,7 +16,7 @@ public class Phonebook {
     }
 
     public boolean addContact(Contact c) {
-        ContactExistsCondition cond = new ContactExistsCondition(c);
+        ContactExists cond = new ContactExists(c);
         Contact result = contacts.search(cond);
         if (result == null) {
             contacts.add(c);
@@ -30,7 +31,7 @@ public class Phonebook {
         if (e.getContact() == null) {
             return false;
         }
-        EqualsNameDateCondition cond = new EqualsNameDateCondition(e);
+        EventContactNameOrDateEquals cond = new EventContactNameOrDateEquals(e);
         Event result = events.search(cond);
         if (result == null) {
             events.add(e);
@@ -49,7 +50,9 @@ public class Phonebook {
     }
 
     public void deleteContact(Condition<Contact> cond) {
-        contacts.delete(cond);
+        Contact c = contacts.delete(cond);
+        EventIsForContact cond2 = new EventIsForContact(c);
+        events.delete(cond2);
     }
 
     public void deleteEvent(Condition<Event> cond) {

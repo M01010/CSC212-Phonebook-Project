@@ -2,9 +2,9 @@ package Conditions;
 
 import models.Event;
 
-public class EqualsNameDateCondition implements Condition<Event> {
+public class EventContactNameOrDateEquals implements Condition<Event> {
     private final Event event;
-    public EqualsNameDateCondition(Event e) {
+    public EventContactNameOrDateEquals(Event e) {
         this.event = e;
     }
     @Override

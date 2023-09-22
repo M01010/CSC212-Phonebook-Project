@@ -2,11 +2,11 @@ package Conditions;
 
 import models.Contact;
 
-public class EqualsPhoneNumberCondition implements Condition<Contact> {
+public class ContactPhoneNumberEquals implements Condition<Contact> {
 
     private final String phoneNumber;
 
-    public EqualsPhoneNumberCondition(String phoneNumber) {
+    public ContactPhoneNumberEquals(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
 

@@ -2,9 +2,9 @@ package Conditions;
 
 import models.Contact;
 
-public class EqualsFirstNameCondition implements Condition<Contact> {
+public class ContactFirstNameEquals implements Condition<Contact> {
     final String fname;
-    public EqualsFirstNameCondition(String fname) {
+    public ContactFirstNameEquals(String fname) {
         this.fname = fname;
     }
 

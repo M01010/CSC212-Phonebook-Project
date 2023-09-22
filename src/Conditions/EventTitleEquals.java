@@ -2,11 +2,11 @@ package Conditions;
 
 import models.Event;
 
-public class EventNameCondition implements Condition<Event> {
+public class EventTitleEquals implements Condition<Event> {
 
     private final String title;
 
-    public EventNameCondition(String title) {
+    public EventTitleEquals(String title) {
         this.title = title;
     }
 

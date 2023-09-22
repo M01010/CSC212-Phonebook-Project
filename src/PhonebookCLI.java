@@ -47,7 +47,7 @@ public class PhonebookCLI {
 
     private void printContactsByFirstName() {
         String name = inputService.getString("first name: ");
-        EqualsFirstNameCondition cond = new EqualsFirstNameCondition(name);
+        ContactFirstNameEquals cond = new ContactFirstNameEquals(name);
         LinkedList<Contact> l = phonebook.filterContacts(cond);
         if (l.Empty()) {
             System.out.println("no results :(");
@@ -65,11 +65,11 @@ public class PhonebookCLI {
         Condition<Event> cond = null;
         if (choice.equals("1")) {
             String name = inputService.getString("Enter the contact name: ");
-            cond = new EventNameCondition(name);
+            cond = new EventTitleEquals(name);
         }
         if (choice.equals("2")) {
             String title = inputService.getString("Enter the event title: ");
-            cond = new EventNameCondition(title);
+            cond = new EventTitleEquals(title);
         }
         LinkedList<Event> l = phonebook.filterEvents(cond);
         if (l.Empty()) {
@@ -85,7 +85,7 @@ public class PhonebookCLI {
         String name = inputService.getString("Enter contact name: ");
         String date = inputService.getString("Enter event date and time (MM/DD/YYYY HH:MM): ");
         String location = inputService.getString("Enter event location: ");
-        Contact c = phonebook.searchContacts(new EqualsNameCondition(name));
+        Contact c = phonebook.searchContacts(new ContactNameEquals(name));
         boolean added = phonebook.addEvent(new Event(title, c, date, location));
         if (added) {
             System.out.println("Event added successfully");
@@ -100,7 +100,7 @@ public class PhonebookCLI {
             System.out.println("no contact found :(");
         } else {
             System.out.println("Contact deleted!");
-            phonebook.deleteContact(new EqualsNameCondition(c.getName()));
+            phonebook.deleteContact(new ContactNameEquals(c.getName()));
         }
     }
 
@@ -141,19 +141,19 @@ public class PhonebookCLI {
         Condition<Contact> cond = null;
         if (choice.equals("1")) {
             String name = inputService.getString("Enter the contact's name: ");
-            cond = new EqualsNameCondition(name);
+            cond = new ContactNameEquals(name);
         } else if (choice.equals("2")) {
             String number = inputService.getString("Enter the contact's number: ");
-            cond = new EqualsPhoneNumberCondition(number);
+            cond = new ContactPhoneNumberEquals(number);
         } else if (choice.equals("3")) {
             String email = inputService.getString("Enter the contact's email: ");
-            cond = new EqualsEmailAddressCondition(email);
+            cond = new ContactEmailAddressEquals(email);
         } else if (choice.equals("4")) {
             String address = inputService.getString("Enter the contact's address: ");
-            cond = new EqualsAddressCondition(address);
+            cond = new ContactAddressEquals(address);
         } else if (choice.equals("5")) {
             String birthday = inputService.getString("Enter the contact's birthday: ");
-            cond = new EqualsBirthdayCondition(birthday);
+            cond = new ContactBirthdayEquals(birthday);
         }
         return phonebook.searchContacts(cond);
     }
