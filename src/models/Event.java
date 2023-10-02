@@ -19,11 +19,17 @@ public class Event implements Comparable<Event> {
         return "Event title: " + title + "\n" + "Contact name: " + contact.getName() + "\n" + "Event date and time (MM/DD/YYYY HH:MM): " + dateTime + "\n" + "Event location: " + location;
     }
 
+    /**
+     * O(1)
+     */
     @Override
     public int compareTo(Event e) {
         return title.compareTo(e.title);
     }
 
+    /**
+     * O(1)
+     */
     public boolean contactIsSchedueled(Event e) {
         return contact.getName().equalsIgnoreCase(e.contact.getName()) && dateTime.equalsIgnoreCase(e.dateTime);
     }

@@ -18,6 +18,10 @@ public class LinkedList<T extends Comparable<T>> {
         return current.getNext() == null;
     }
 
+
+    /**
+     * O(1)
+     */
     private void insert(T data) {
         Node<T> temp = new Node<>(data);
         if (Empty()) {
@@ -29,6 +33,9 @@ public class LinkedList<T extends Comparable<T>> {
         }
     }
 
+    /**
+     * O(N)
+     */
     private T remove() {
         T res = current.getData();
         if (current == head) {
@@ -51,20 +58,30 @@ public class LinkedList<T extends Comparable<T>> {
         return res;
     }
 
+    /**
+     * Adds to the list sorted by using compareTo
+     * O(N)
+     */
     public void add(T data) {
         if (Empty() || head.getData().compareTo(data) >= 0) { // insert at head or before head
             Node<T> temp = new Node<>(data);
             temp.setNext(head);
             head = current = temp;
-        } else {
-            current = head;
-            while (current.getNext() != null && current.getNext().getData().compareTo(data) <= 0) {
-                current = current.getNext();
-            }
-            insert(data);
+            return;
         }
+        current = head;
+        while (current.getNext() != null && current.getNext().getData().compareTo(data) <= 0) {
+            current = current.getNext();
+        }
+        insert(data);
     }
 
+    /**
+     * Searches the list by condition
+     * returns 1 matching element
+     * if not found: will return null
+     * O(N)
+     */
     public T search(Condition<T> condition) {
         Node<T> temp = head;
         while (temp != null) {
@@ -76,6 +93,11 @@ public class LinkedList<T extends Comparable<T>> {
         return null;
     }
 
+    /**
+     * Searches the list by condition
+     * returns a list of matching elements
+     * O(N)
+     */
     public LinkedList<T> filter(Condition<T> condition) {
         LinkedList<T> l = new LinkedList<T>();
         current = head;
@@ -88,6 +110,11 @@ public class LinkedList<T extends Comparable<T>> {
         return l;
     }
 
+    /**
+     * Searches the list by condition
+     * deletes 1 matching element
+     * O(N^2)
+     */
     public T delete(Condition<T> condition) {
         current = head;
         while (current != null) {
@@ -99,6 +126,10 @@ public class LinkedList<T extends Comparable<T>> {
         return null;
     }
 
+    /**
+     * Displat each element of the list
+     * O(N)
+     */
     public void display() {
         current = head;
         while (current != null) {

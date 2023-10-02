@@ -15,6 +15,9 @@ public class Phonebook {
         this.events = new LinkedList<Event>();
     }
 
+    /**
+     * O(N)
+     */
     public boolean addContact(Contact c) {
         ContactExists cond = new ContactExists(c);
         Contact result = contacts.search(cond);

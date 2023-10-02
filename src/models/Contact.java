@@ -44,11 +44,18 @@ public class Contact implements Comparable<Contact> {
         this.phoneNumber = phoneNumber;
     }
 
+    /**
+     * Compares 2 Contact names.
+     * O(1)
+     */
     @Override
     public int compareTo(Contact o) {
         return this.name.compareTo(o.name);
     }
 
+    /**
+     * O(1)
+     */
     @Override
     public String toString() {
         return "Name: " + this.name + "\n" + "Phone Number: " + this.phoneNumber + "\n" + "Email Address: " + this.email + "\n" + "Address: " + this.address + "\n" + "Birthday: " + this.birthDate + "\n" + "Notes: " + this.notes;
