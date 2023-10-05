@@ -1,5 +1,6 @@
 package Conditions;
 
+import models.Contact;
 import models.Event;
 
 public class EventContactNameEquals implements Condition<Event> {
@@ -12,7 +13,8 @@ public class EventContactNameEquals implements Condition<Event> {
 
     @Override
     public boolean test(Event data) {
-        return data.getContact().getName().equalsIgnoreCase(name);
+        Contact res = data.searchContacts(new ContactNameEquals(name));
+        return res != null;
     }
 
 }

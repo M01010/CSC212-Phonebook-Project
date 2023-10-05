@@ -1,22 +1,45 @@
 package models;
 
+import Conditions.Condition;
+import Conditions.ContactNameEquals;
+
 public class Event implements Comparable<Event> {
     private final String title;
-    private final Contact contact;
+    private final LinkedList<Contact> contacts;
     private final String dateTime;
     private final String location;
 
+    /**
+     * O(1)
+     */
     public Event(String title, Contact contact, String dateTime, String location) {
         this.title = title;
-        this.contact = contact;
+        this.contacts = new LinkedList<Contact>();
+        this.contacts.insert(contact);
         this.dateTime = dateTime;
         this.location = location;
     }
 
-
+    /**
+     * O(N)
+     */
     @Override
     public String toString() {
-        return "Event title: " + title + "\n" + "Contact name: " + contact.getName() + "\n" + "Event date and time (MM/DD/YYYY HH:MM): " + dateTime + "\n" + "Event location: " + location;
+        return "Event title: " + title + "\n" + "Contacts: " + getContactNames() + "\n" + "Event date and time (MM/DD/YYYY HH:MM): " + dateTime + "\n" + "Event location: " + location;
+    }
+
+    /**
+     * O(N)
+     */
+    private String getContactNames() {
+        contacts.findFirst();
+        String res = "";
+        while (!contacts.last()) {
+            res += contacts.retrieve().getName() + " ";
+            contacts.findNext();
+        }
+        res += contacts.retrieve().getName() + " ";
+        return res;
     }
 
     /**
@@ -28,25 +51,59 @@ public class Event implements Comparable<Event> {
     }
 
     /**
-     * O(1)
+     * O(N)
      */
-    public boolean contactIsSchedueled(Event e) {
-        return contact.getName().equalsIgnoreCase(e.contact.getName()) && dateTime.equalsIgnoreCase(e.dateTime);
+    public boolean contactIsSchedueled(Event e, Contact c) {
+        return dateTime.equalsIgnoreCase(e.dateTime) && contactInEvent(c);
     }
 
+    /**
+     * O(N)
+     */
+    public Contact searchContacts(Condition<Contact> cond) {
+        return contacts.search(cond);
+    }
+
+    /**
+     * O(N)
+     */
+    public boolean contactInEvent(Contact c) {
+        Contact res = contacts.search(new ContactNameEquals(c.getName()));
+        return res != null;
+    }
+
+    /**
+     * O(1)
+     */
     public String getTitle() {
         return title;
     }
 
-    public Contact getContact() {
-        return contact;
-    }
-
+    /**
+     * O(1)
+     */
     public String getDateTime() {
         return dateTime;
     }
 
+    /**
+     * O(1)
+     */
     public String getLocation() {
         return location;
+    }
+
+    /**
+     * O(1)
+     */
+    public void addContact(Contact c) {
+        contacts.insert(c);
+    }
+
+    /**
+     * O(1)
+     */
+    public LinkedList<Contact> getContacts() {
+        return contacts;
     }
 }

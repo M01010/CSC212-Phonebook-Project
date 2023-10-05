@@ -29,4 +29,10 @@ public class InputService {
         System.out.print(msg);
         return input.next();
     }
+
+    public String getLine(String msg) {
+        System.out.print(msg);
+        input.nextLine();
+        return input.nextLine();
+    }
 }

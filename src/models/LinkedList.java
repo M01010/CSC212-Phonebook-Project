@@ -1,4 +1,4 @@
-package LinkedList;
+package models;
 
 import Conditions.Condition;
 
@@ -6,15 +6,45 @@ public class LinkedList<T extends Comparable<T>> {
     Node<T> head;
     Node<T> current;
 
+    /**
+     * O(1)
+     */
     public LinkedList() {
         head = current = null;
     }
 
+    /**
+     * O(1)
+     */
     public boolean Empty() {
         return head == null;
     }
 
-    private boolean last() {
+    /**
+     * O(1)
+     */
+    public void findFirst() {
+        current = head;
+    }
+
+    /**
+     * O(1)
+     */
+    public void findNext() {
+        current = current.getNext();
+    }
+
+    /**
+     * O(1)
+     */
+    public T retrieve() {
+        return current.getData();
+    }
+
+    /**
+     * O(1)
+     */
+    public boolean last() {
         return current.getNext() == null;
     }
 
@@ -22,7 +52,7 @@ public class LinkedList<T extends Comparable<T>> {
     /**
      * O(1)
      */
-    private void insert(T data) {
+    public void insert(T data) {
         Node<T> temp = new Node<>(data);
         if (Empty()) {
             head = current = temp;
@@ -113,7 +143,7 @@ public class LinkedList<T extends Comparable<T>> {
     /**
      * Searches the list by condition
      * deletes 1 matching element
-     * O(N^2)
+     * O(N^2) or O(N)
      */
     public T delete(Condition<T> condition) {
         current = head;
@@ -127,7 +157,22 @@ public class LinkedList<T extends Comparable<T>> {
     }
 
     /**
-     * Displat each element of the list
+     * Searches the list by condition
+     * deletes all matching elements
+     * O(N^2)
+     */
+    public void deleteAll(Condition<T> condition) {
+        current = head;
+        while (current != null) {
+            if (condition.test(current.getData())) {
+                remove();
+            }
+            current = current.getNext();
+        }
+    }
+
+    /**
+     * Display each element of the list
      * O(N)
      */
     public void display() {

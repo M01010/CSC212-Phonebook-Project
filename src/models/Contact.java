@@ -11,30 +11,51 @@ public class Contact implements Comparable<Contact> {
     private final String birthDate;
     private final String notes;
 
+    /**
+     * O(1)
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * O(1)
+     */
     public String getPhoneNumber() {
         return phoneNumber;
     }
 
+    /**
+     * O(1)
+     */
     public String getEmail() {
         return email;
     }
 
+    /**
+     * O(1)
+     */
     public String getAddress() {
         return address;
     }
 
+    /**
+     * O(1)
+     */
     public String getBirthDate() {
         return birthDate;
     }
 
+    /**
+     * O(1)
+     */
     public String getNotes() {
         return notes;
     }
 
+    /**
+     * O(1)
+     */
     public Contact(String name, String phoneNumber, String email, String address, String brithDate, String notes) {
         this.name = name;
         this.address = address;

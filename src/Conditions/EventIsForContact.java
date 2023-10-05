@@ -11,6 +11,7 @@ public class EventIsForContact implements Condition<Event> {
 
     @Override
     public boolean test(Event data) {
-        return data.getContact().getName().equalsIgnoreCase(contact.getName());
+        Contact res = data.searchContacts(new ContactNameEquals(contact.getName()));
+        return res != null;
     }
 }
