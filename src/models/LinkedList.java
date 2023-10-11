@@ -3,8 +3,8 @@ package models;
 import Conditions.Condition;
 
 public class LinkedList<T extends Comparable<T>> {
-    Node<T> head;
-    Node<T> current;
+    private Node<T> head;
+    private Node<T> current;
 
     /**
      * O(1)

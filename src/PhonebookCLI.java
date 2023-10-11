@@ -77,12 +77,12 @@ public class PhonebookCLI {
                 }
             } else if (userInput.equals("3")) {
                 // delete a contact
-                Contact c = searchForContact();
+                String name = inputService.getLine("Enter the contact's name: ");
+                Contact c = phonebook.deleteContact(new ContactNameEquals(name));
                 if (c == null) {
                     System.out.println("no contact found :(");
                 } else {
                     System.out.println("Contact deleted!");
-                    phonebook.deleteContact(new ContactNameEquals(c.getName()));
                 }
             } else if (userInput.equals("4")) {
                 // Schedule an event
@@ -98,10 +98,22 @@ public class PhonebookCLI {
                 }
             } else if (userInput.equals("5")) {
                 // print event details
-                Condition<Event> cond = getEventCondition();
+                System.out.println("Enter search criteria: ");
+                System.out.println("1. contact name");
+                System.out.println("2. Event title");
+                String choice = inputService.getString("Enter your choice: ", new String[]{"1", "2"});
+                Condition<Event> cond = null;
+                if (choice.equals("1")) {
+                    String name = inputService.getLine("Enter the contact name: ");
+                    cond = new EventContactNameEquals(name);
+                }
+                if (choice.equals("2")) {
+                    String title = inputService.getString("Enter the event title: ");
+                    cond = new EventTitleEquals(title);
+                }
                 LinkedList<Event> l = phonebook.filterEvents(cond);
                 if (l.Empty()) {
-                    System.out.println(" no results :(");
+                    System.out.println("no results :(");
                 } else {
                     System.out.println("Events found!");
                     l.display();
@@ -122,7 +134,8 @@ public class PhonebookCLI {
                 phonebook.displayEvents();
             } else if (userInput.equals("8")) {
                 // print all contacts sharing an event
-                Condition<Event> cond = getEventCondition();
+                String title = inputService.getString("Enter the event title: ");
+                Condition<Event> cond = new EventTitleEquals(title);
                 Event e = phonebook.searchEvents(cond);
                 if (e != null) {
                     LinkedList<Contact> l = e.getContacts();
@@ -135,23 +148,6 @@ public class PhonebookCLI {
                 run = false;
             }
         }
-    }
-
-    private Condition<Event> getEventCondition() {
-        System.out.println("Enter search criteria: ");
-        System.out.println("1. contact name");
-        System.out.println("2. Event title");
-        String choice = inputService.getString("Enter your choice: ", new String[]{"1", "2"});
-        Condition<Event> cond = null;
-        if (choice.equals("1")) {
-            String name = inputService.getLine("Enter the contact name: ");
-            cond = new EventContactNameEquals(name);
-        }
-        if (choice.equals("2")) {
-            String title = inputService.getString("Enter the event title: ");
-            cond = new EventTitleEquals(title);
-        }
-        return cond;
     }
 
     private Contact searchForContact() {

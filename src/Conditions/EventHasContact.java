@@ -3,12 +3,16 @@ package Conditions;
 import models.Contact;
 import models.Event;
 
-public class EventIsForContact implements Condition<Event> {
+public class EventHasContact implements Condition<Event> {
     private final Contact contact;
-    public EventIsForContact(Contact contact) {
+
+
+    /**
+     * Test: O(N)
+     */
+    public EventHasContact(Contact contact) {
         this.contact = contact;
     }
-
     @Override
     public boolean test(Event data) {
         Contact res = data.searchContacts(new ContactNameEquals(contact.getName()));

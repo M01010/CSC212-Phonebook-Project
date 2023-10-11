@@ -3,8 +3,8 @@ package models;
 import Conditions.*;
 
 public class Phonebook {
-    final LinkedList<Contact> contacts;
-    final LinkedList<Event> events;
+    private final LinkedList<Contact> contacts;
+    private final LinkedList<Event> events;
 
     /**
      * O(1)
@@ -74,16 +74,17 @@ public class Phonebook {
     /**
      * O(N^2)
      */
-    public void deleteContact(Condition<Contact> cond) {
+    public Contact deleteContact(Condition<Contact> cond) {
         Contact c = contacts.delete(cond);
-        events.deleteAll(new EventIsForContact(c));
+        events.deleteAll(new EventHasContact(c));
+        return c;
     }
 
     /**
      * O(N^2) or O(N)
      */
-    public void deleteEvent(Condition<Event> cond) {
-        events.delete(cond);
+    public Event deleteEvent(Condition<Event> cond) {
+        return events.delete(cond);
     }
 
     /**

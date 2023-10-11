@@ -22,6 +22,7 @@ public class Event implements Comparable<Event> {
 
     /**
      * O(N)
+     * TODO: fix
      */
     @Override
     public String toString() {
