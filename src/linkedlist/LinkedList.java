@@ -67,23 +67,27 @@ public class LinkedList<T extends Comparable<T>> {
      * O(N)
      */
     private T remove() {
+        if (Empty()) {
+            return null;
+        }
         T res = current.getData();
         if (current == head) {
             head = head.getNext();
-        } else {
-            Node<T> prev = head;
-            while (prev.getNext() != current) {
-                prev = prev.getNext();
-            }
-            prev.setNext(current.getNext());
-            if (last()) {
-                current = head;
-            } else {
-                current = current.getNext();
-            }
+            current = head;
+            return res;
         }
+        Node<T> prev = head;
+        while (prev.getNext() != current) {
+            prev = prev.getNext();
+        }
+        prev.setNext(current.getNext());
         if (Empty()) {
             current = null;
+        }
+        else if (last()) {
+            current = head;
+        } else {
+            current = current.getNext();
         }
         return res;
     }
@@ -166,9 +170,11 @@ public class LinkedList<T extends Comparable<T>> {
         while (current != null) {
             if (condition.test(current.getData())) {
                 remove();
+            } else {
+                current = current.getNext();
             }
-            current = current.getNext();
         }
+        current = head;
     }
 
     /**
