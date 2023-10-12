@@ -1,8 +1,8 @@
-import Conditions.*;
-import models.LinkedList;
-import models.Contact;
-import models.Event;
-import models.Phonebook;
+package cli;
+
+import conditions.*;
+import linkedlist.LinkedList;
+import models.*;
 
 public class PhonebookCLI {
     private final Phonebook phonebook;
@@ -54,10 +54,10 @@ public class PhonebookCLI {
             if (userInput.equals("1")) {
                 // add contact
                 String name = inputService.getLine("Enter a name: ");
-                String phoneNumber = inputService.getString("Enter a phone number: ");
-                String email = inputService.getString("Enter a email: ");
+                String phoneNumber = inputService.getNumber("Enter a phone number: ");
+                String email = inputService.getEmail("Enter a email: ");
                 String address = inputService.getString("Enter an address: ");
-                String birthDate = inputService.getString("Enter a birthdate: ");
+                String birthDate = inputService.getDate("Enter a birthdate: ");
                 String notes = inputService.getString("Enter notes: ");
                 Contact c = new Contact(name, phoneNumber, email, address, birthDate, notes);
                 boolean added = phonebook.addContact(c);
@@ -88,7 +88,7 @@ public class PhonebookCLI {
                 // Schedule an event
                 String title = inputService.getString("Enter event title:");
                 String name = inputService.getLine("Enter contact name: ");
-                String date = inputService.getString("Enter event date and time (MM/DD/YYYY HH:MM): ");
+                String date = inputService.getDateTime("Enter event date and time (MM/DD/YYYY HH:MM): ");
                 String location = inputService.getString("Enter event location: ");
                 boolean added = phonebook.addEvent(title, name, date, location);
                 if (added) {
@@ -145,6 +145,7 @@ public class PhonebookCLI {
                 }
             } else if (userInput.equals("9")) {
                 // exit
+                System.out.println("Goodbye!");
                 run = false;
             }
         }
@@ -163,16 +164,16 @@ public class PhonebookCLI {
             String name = inputService.getLine("Enter the contact's name: ");
             cond = new ContactNameEquals(name);
         } else if (choice.equals("2")) {
-            String number = inputService.getString("Enter the contact's number: ");
+            String number = inputService.getNumber("Enter the contact's number: ");
             cond = new ContactPhoneNumberEquals(number);
         } else if (choice.equals("3")) {
-            String email = inputService.getString("Enter the contact's email: ");
+            String email = inputService.getEmail("Enter the contact's email: ");
             cond = new ContactEmailAddressEquals(email);
         } else if (choice.equals("4")) {
             String address = inputService.getString("Enter the contact's address: ");
             cond = new ContactAddressEquals(address);
         } else if (choice.equals("5")) {
-            String birthday = inputService.getString("Enter the contact's birthday: ");
+            String birthday = inputService.getDate("Enter the contact's birthday: ");
             cond = new ContactBirthdayEquals(birthday);
         }
         return phonebook.searchContacts(cond);

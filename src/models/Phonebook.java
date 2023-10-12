@@ -1,6 +1,7 @@
 package models;
 
-import Conditions.*;
+import conditions.*;
+import linkedlist.LinkedList;
 
 public class Phonebook {
     private final LinkedList<Contact> contacts;

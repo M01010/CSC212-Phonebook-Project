@@ -1,4 +1,4 @@
-package Conditions;
+package conditions;
 
 import models.Event;
 

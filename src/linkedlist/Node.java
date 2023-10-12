@@ -1,4 +1,4 @@
-package models;
+package linkedlist;
 
 public class Node<T> {
     private final T data;

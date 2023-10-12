@@ -1,7 +1,8 @@
 package models;
 
-import Conditions.Condition;
-import Conditions.ContactNameEquals;
+import conditions.Condition;
+import conditions.ContactNameEquals;
+import linkedlist.LinkedList;
 
 public class Event implements Comparable<Event> {
     private final String title;
@@ -22,7 +23,7 @@ public class Event implements Comparable<Event> {
 
     /**
      * O(N)
-     * TODO: fix
+     * We assume this is O(1) since its a basic operation
      */
     @Override
     public String toString() {

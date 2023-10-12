@@ -1,6 +1,6 @@
-package models;
+package linkedlist;
 
-import Conditions.Condition;
+import conditions.Condition;
 
 public class LinkedList<T extends Comparable<T>> {
     private Node<T> head;
