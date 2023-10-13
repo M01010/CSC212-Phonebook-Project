@@ -113,7 +113,7 @@ public class PhonebookCLI {
                     cond = new EventTitleEquals(title);
                 }
                 LinkedList<Event> l = phonebook.filterEvents(cond);
-                if (l.Empty()) {
+                if (l.empty()) {
                     System.out.println("no results :(");
                 } else {
                     System.out.println("Events found!");
@@ -124,7 +124,7 @@ public class PhonebookCLI {
                 String name = inputService.getString("first name: ");
                 ContactFirstNameEquals cond = new ContactFirstNameEquals(name);
                 LinkedList<Contact> l = phonebook.filterContacts(cond);
-                if (l.Empty()) {
+                if (l.empty()) {
                     System.out.println("no results :(");
                 } else {
                     System.out.println("Contacts found!");
@@ -140,7 +140,7 @@ public class PhonebookCLI {
                 Event e = phonebook.searchEvents(cond);
                 if (e != null) {
                     LinkedList<Contact> l = e.getContacts();
-                    if (l.Empty()) {
+                    if (l.empty()) {
                         System.out.println("no events added yet :(");
                     } else {
                         l.display();
