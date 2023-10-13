@@ -13,6 +13,7 @@ public class InputService {
         while (true) {
             System.out.print(msg);
             String userInput = input.next();
+            input.nextLine();
             for (String option : options) {
                 if (userInput.equalsIgnoreCase(option)) {
                     System.out.println();
@@ -29,7 +30,9 @@ public class InputService {
 
     public String getString(String msg) {
         System.out.print(msg);
-        return input.next();
+        String s = input.next();
+        input.nextLine();
+        return s;
     }
 
     public String getDate(String msg) {
@@ -45,8 +48,7 @@ public class InputService {
 
     public String getDateTime(String msg) {
         while (true) {
-            System.out.print(msg);
-            String s = input.nextLine();
+            String s = getLine(msg);
             if (StringValidator.isDateTime(s)) {
                 return s;
             } else {
@@ -79,7 +81,6 @@ public class InputService {
 
     public String getLine(String msg) {
         System.out.print(msg);
-        input.nextLine();
         return input.nextLine();
     }
 }

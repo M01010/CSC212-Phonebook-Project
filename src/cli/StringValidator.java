@@ -16,6 +16,19 @@ public class StringValidator {
         if ((!isDigit(c[0]) || !isDigit(c[1])) || !isDigit(c[2])) {
             return false;
         }
+        //all have correct values
+        int m = Integer.parseInt(c[0]);
+        if (m < 1 || m > 12) {
+            return false;
+        }
+        int d = Integer.parseInt(c[1]);
+        if (d < 1 || d > 31) {
+            return false;
+        }
+        int y = Integer.parseInt(c[2]);
+        if (y < 1900 || y > 2100) {
+            return false;
+        }
         return true;
     }
 
@@ -30,6 +43,15 @@ public class StringValidator {
         }
         // both are digits
         if (!isDigit(c[0]) || !isDigit(c[1])) {
+            return false;
+        }
+        //all have correct values
+        int h = Integer.parseInt(c[0]);
+        if (h < 0 || h > 23) {
+            return false;
+        }
+        int m = Integer.parseInt(c[1]);
+        if (m < 0 || m > 59) {
             return false;
         }
         return true;

@@ -53,12 +53,13 @@ public class PhonebookCLI {
             String userInput = inputService.getString("Enter your choice: ", new String[]{"1", "2", "3", "4", "5", "6", "7", "8", "9"});
             if (userInput.equals("1")) {
                 // add contact
+//                inputService.clearBuffer();
                 String name = inputService.getLine("Enter a name: ");
                 String phoneNumber = inputService.getNumber("Enter a phone number: ");
                 String email = inputService.getEmail("Enter a email: ");
-                String address = inputService.getString("Enter an address: ");
+                String address = inputService.getLine("Enter an address: ");
                 String birthDate = inputService.getDate("Enter a birthdate: ");
-                String notes = inputService.getString("Enter notes: ");
+                String notes = inputService.getLine("Enter notes: ");
                 Contact c = new Contact(name, phoneNumber, email, address, birthDate, notes);
                 boolean added = phonebook.addContact(c);
                 if (added) {
@@ -86,10 +87,10 @@ public class PhonebookCLI {
                 }
             } else if (userInput.equals("4")) {
                 // Schedule an event
-                String title = inputService.getString("Enter event title:");
+                String title = inputService.getLine("Enter event title:");
                 String name = inputService.getLine("Enter contact name: ");
                 String date = inputService.getDateTime("Enter event date and time (MM/DD/YYYY HH:MM): ");
-                String location = inputService.getString("Enter event location: ");
+                String location = inputService.getLine("Enter event location: ");
                 boolean added = phonebook.addEvent(title, name, date, location);
                 if (added) {
                     System.out.println("Event added successfully");
@@ -108,7 +109,7 @@ public class PhonebookCLI {
                     cond = new EventContactNameEquals(name);
                 }
                 if (choice.equals("2")) {
-                    String title = inputService.getString("Enter the event title: ");
+                    String title = inputService.getLine("Enter the event title: ");
                     cond = new EventTitleEquals(title);
                 }
                 LinkedList<Event> l = phonebook.filterEvents(cond);
@@ -134,12 +135,16 @@ public class PhonebookCLI {
                 phonebook.displayEvents();
             } else if (userInput.equals("8")) {
                 // print all contacts sharing an event
-                String title = inputService.getString("Enter the event title: ");
+                String title = inputService.getLine("Enter the event title: ");
                 Condition<Event> cond = new EventTitleEquals(title);
                 Event e = phonebook.searchEvents(cond);
                 if (e != null) {
                     LinkedList<Contact> l = e.getContacts();
-                    l.display();
+                    if (l.Empty()) {
+                        System.out.println("no events added yet :(");
+                    } else {
+                        l.display();
+                    }
                 } else {
                     System.out.println("Couldnt find event :(");
                 }
@@ -159,6 +164,7 @@ public class PhonebookCLI {
         System.out.println("4. Address");
         System.out.println("5. Birthday");
         String choice = inputService.getString("Enter your choice: ", new String[]{"1", "2", "3", "4", "5"});
+//        inputService.clearBuffer();
         Condition<Contact> cond = null;
         if (choice.equals("1")) {
             String name = inputService.getLine("Enter the contact's name: ");
@@ -170,7 +176,7 @@ public class PhonebookCLI {
             String email = inputService.getEmail("Enter the contact's email: ");
             cond = new ContactEmailAddressEquals(email);
         } else if (choice.equals("4")) {
-            String address = inputService.getString("Enter the contact's address: ");
+            String address = inputService.getLine("Enter the contact's address: ");
             cond = new ContactAddressEquals(address);
         } else if (choice.equals("5")) {
             String birthday = inputService.getDate("Enter the contact's birthday: ");

@@ -77,7 +77,9 @@ public class Phonebook {
      */
     public Contact deleteContact(Condition<Contact> cond) {
         Contact c = contacts.delete(cond);
-        events.deleteAll(new EventHasContact(c));
+        if (c != null) {
+            events.deleteAll(new EventHasContact(c));
+        }
         return c;
     }
 
