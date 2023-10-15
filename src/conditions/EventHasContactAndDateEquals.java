@@ -4,14 +4,18 @@ import models.Contact;
 import models.Event;
 
 public class EventHasContactAndDateEquals implements Condition<Event> {
-    private final Event event;
+    private final String dateTime;
     private final Contact c;
-    public EventHasContactAndDateEquals(Event e, Contact c) {
-        this.event = e;
+
+    /**
+     * Test: O(N)
+     */
+    public EventHasContactAndDateEquals(String dateTime, Contact c) {
+        this.dateTime = dateTime;
         this.c = c;
     }
     @Override
     public boolean test(Event data) {
-        return data.contactIsSchedueled(event, c);
+        return data.contactIsSchedueled(dateTime, c);
     }
 }

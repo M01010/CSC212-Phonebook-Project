@@ -63,7 +63,10 @@ public class StringValidator {
         if (c.length != 2) {
             return false;
         } // first is date and second is time
-        if (!isDate(c[0]) || !isTime(c[1])) {
+        if (!isDate(c[0])) {
+            return false;
+        }
+        if (!isTime(c[1])) {
             return false;
         }
         return true;

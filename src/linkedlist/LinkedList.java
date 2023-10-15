@@ -62,6 +62,18 @@ public class LinkedList<T extends Comparable<T>> {
             current = current.getNext();
         }
     }
+    public int length(){
+        if (empty()){
+            return 0;
+        }
+        int count =0;
+         Node<T> temp = head;
+        while (temp != null) {
+             count ++;
+            temp = temp.getNext();
+        }
+        return count;
+    }
 
     /**
      * O(N)
@@ -81,10 +93,7 @@ public class LinkedList<T extends Comparable<T>> {
             prev = prev.getNext();
         }
         prev.setNext(current.getNext());
-        if (empty()) {
-            current = null;
-        }
-        else if (last()) {
+         if (last()) {
             current = head;
         } else {
             current = current.getNext();
@@ -97,7 +106,8 @@ public class LinkedList<T extends Comparable<T>> {
      * O(N)
      */
     public void add(T data) {
-        if (empty() || head.getData().compareTo(data) >= 0) { // insert at head or before head
+         // insert at head or before head
+        if (empty() || head.getData().compareTo(data) >= 0) {
             Node<T> temp = new Node<>(data);
             temp.setNext(head);
             head = current = temp;
@@ -169,7 +179,12 @@ public class LinkedList<T extends Comparable<T>> {
         current = head;
         while (current != null) {
             if (condition.test(current.getData())) {
+                if(last()){
+                    remove(); 
+                    break;
+                }
                 remove();
+
             } else {
                 current = current.getNext();
             }

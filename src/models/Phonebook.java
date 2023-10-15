@@ -14,7 +14,8 @@ public class Phonebook {
         this.contacts = new LinkedList<Contact>();
         this.events = new LinkedList<Event>();
     }
-// f
+
+
     /**
      * O(N)
      */
@@ -46,11 +47,11 @@ public class Phonebook {
             return true;
         }
         // add new event
-        Event newEvent = new Event(title, c, date, location);
-        EventHasContactAndDateEquals cond = new EventHasContactAndDateEquals(newEvent, c);
+        EventHasContactAndDateEquals cond = new EventHasContactAndDateEquals(date, c);
         Event result = events.search(cond); // N^2
         // if contact is not schedueled
         if (result == null) {
+            Event newEvent = new Event(title, c, date, location);
             events.add(newEvent);
             return true;
         }

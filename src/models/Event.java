@@ -27,11 +27,19 @@ public class Event implements Comparable<Event> {
      */
     @Override
     public String toString() {
-        return "Event title: " + title + "\n" + "Contacts: " + getContactNames() + "\n" + "Event date and time (MM/DD/YYYY HH:MM): " + dateTime + "\n" + "Event location: " + location;
+        String s ;
+        if(contacts.length()==1){
+            s= "Contact: ";
+        }
+        else{
+            s= "Contacts: ";
+        }
+        return "Event title: " + title + "\n" + s + getContactNames() + "\n" + "Event date and time (MM/DD/YYYY HH:MM): " + dateTime + "\n" + "Event location: " + location;
     }
 
     /**
      * O(N)
+     * returns all contacts names in a sting
      */
     private String getContactNames() {
         contacts.findFirst();
@@ -55,15 +63,8 @@ public class Event implements Comparable<Event> {
     /**
      * O(N)
      */
-    public boolean contactIsSchedueled(Event e, Contact c) {
-        return dateTime.equalsIgnoreCase(e.dateTime) && contactInEvent(c);
-    }
-
-    /**
-     * O(N)
-     */
-    public Contact searchContacts(Condition<Contact> cond) {
-        return contacts.search(cond);
+    public boolean contactIsSchedueled(String dateTime, Contact c) {
+        return this.dateTime.equalsIgnoreCase(dateTime) && contactInEvent(c);
     }
 
     /**
@@ -73,6 +74,15 @@ public class Event implements Comparable<Event> {
         Contact res = contacts.search(new ContactNameEquals(c.getName()));
         return res != null;
     }
+
+    /**
+     * O(N)
+     */
+    public Contact searchContacts(Condition<Contact> cond) {
+        return contacts.search(cond);
+    }
+
+   
 
     /**
      * O(1)
