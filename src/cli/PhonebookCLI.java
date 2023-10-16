@@ -14,8 +14,8 @@ public class PhonebookCLI {
     }
 
     public void fillData() {
-        Contact c1 = new Contact("mohammed a", "050", "dkfs", "fdsdf", "fsdfds", "dfdsf");
-        Contact c2 = new Contact("Mohammed alageel", "051", "dkfs", "fdsdf", "fsdfds", "dfdsf");
+        Contact c1 = new Contact("mohammed a", "050", "e1@g.com", "fdsdf", "fsdfds", "dfdsf");
+        Contact c2 = new Contact("Mohammed alageel", "051", "e1@g.com", "fdsdf", "fsdfds", "dfdsf");
         Contact c3 = new Contact("ahmed asdk", "052", "dkfs", "fdsdf", "fsdfds", "dfdsf");
         Contact c4 = new Contact("ziyad", "053", "dkfs", "fdsdf", "fsdfds", "dfdsf");
 
@@ -38,9 +38,9 @@ public class PhonebookCLI {
     }
 
     public void run() {
+        System.out.println("Welcome to the Linked Tree Phonebook!");
         boolean run = true;
         while (run) {
-            System.out.println("Welcome to the Linked Tree Phonebook!");
             System.out.println("Please choose an option:");
             System.out.println("1. Add a contact");
             System.out.println("2. Search for a contact");
@@ -70,12 +70,51 @@ public class PhonebookCLI {
                 }
             } else if (userInput.equals("2")) {
                 // search for a contact
-                Contact c = searchForContact();
-                if (c == null) {
-                    System.out.println("no contact found :(");
+                System.out.println("Enter search criteria:");
+                System.out.println("1. Name");
+                System.out.println("2. Phone Number");
+                System.out.println("3. Email Address");
+                System.out.println("4. Address");
+                System.out.println("5. Birthday");
+                String choice = inputService.getOption("Enter your choice: ", new String[]{"1", "2", "3", "4", "5"});
+                if (choice.equals("1") || choice.equals("2")) {
+                    Contact c;
+                    if (choice.equals("1")) {
+                        String name = inputService.getLine("Enter the contact's name: ");
+                        Condition<Contact> cond = new ContactNameEquals(name);
+                        c = phonebook.searchContacts(cond);
+                    } else {
+                        String number = inputService.getNumber("Enter the contact's number: ");
+                        Condition<Contact> cond = new ContactPhoneNumberEquals(number);
+                        c = phonebook.searchContacts(cond);
+                    }
+                    if (c == null) {
+                        System.out.println("no contact found :(");
+                    } else {
+                        System.out.println("Contact found!");
+                        System.out.println(c);
+                    }
                 } else {
-                    System.out.println("Contact found!");
-                    System.out.println(c);
+                    LinkedList<Contact> l;
+                    if (choice.equals("3")) {
+                        String email = inputService.getEmail("Enter the contact's email: ");
+                        Condition<Contact> cond = new ContactEmailAddressEquals(email);
+                        l = phonebook.filterContacts(cond);
+                    } else if (choice.equals("4")) {
+                        String address = inputService.getLine("Enter the contact's address: ");
+                        Condition<Contact> cond = new ContactAddressEquals(address);
+                        l = phonebook.filterContacts(cond);
+                    } else {
+                        String birthday = inputService.getDate("Enter the contact's birthday: ");
+                        Condition<Contact> cond = new ContactBirthdayEquals(birthday);
+                        l =phonebook.filterContacts(cond);
+                    }
+                    if (l.empty()) {
+                        System.out.println("no contacts found :(");
+                    } else {
+                        System.out.println("Contacts found!");
+                        l.display();
+                    }
                 }
             } else if (userInput.equals("3")) {
                 // delete a contact
@@ -153,37 +192,5 @@ public class PhonebookCLI {
                 run = false;
             }
         }
-    }
-
-    private Contact searchForContact() {
-        System.out.println("Enter search criteria:");
-        System.out.println("1. Name");
-        System.out.println("2. Phone Number");
-        System.out.println("3. Email Address");
-        System.out.println("4. Address");
-        System.out.println("5. Birthday");
-        String choice = inputService.getOption("Enter your choice: ", new String[]{"1", "2", "3", "4", "5"});
-        if (choice.equals("1")) {
-            String name = inputService.getLine("Enter the contact's name: ");
-            Condition<Contact> cond = new ContactNameEquals(name);
-            return phonebook.searchContacts(cond);
-        } else if (choice.equals("2")) {
-            String number = inputService.getNumber("Enter the contact's number: ");
-            Condition<Contact> cond = new ContactPhoneNumberEquals(number);
-            return phonebook.searchContacts(cond);
-        } else if (choice.equals("3")) {
-            String email = inputService.getEmail("Enter the contact's email: ");
-            Condition<Contact> cond = new ContactEmailAddressEquals(email);
-            return phonebook.searchContacts(cond);
-        } else if (choice.equals("4")) {
-            String address = inputService.getLine("Enter the contact's address: ");
-            Condition<Contact> cond = new ContactAddressEquals(address);
-            return phonebook.searchContacts(cond);
-        } else if (choice.equals("5")) {
-            String birthday = inputService.getDate("Enter the contact's birthday: ");
-            Condition<Contact> cond = new ContactBirthdayEquals(birthday);
-            return phonebook.searchContacts(cond);
-        }
-        return null;
     }
 }
