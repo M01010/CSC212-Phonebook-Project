@@ -56,7 +56,7 @@ public class Event implements Comparable<Event> {
      */
     @Override
     public int compareTo(Event e) {
-        return title.compareTo(e.title);
+        return title.toLowerCase().compareTo(e.title.toLowerCase());
     }
 
     /**

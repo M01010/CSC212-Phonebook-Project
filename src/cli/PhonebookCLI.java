@@ -15,7 +15,7 @@ public class PhonebookCLI {
 
     public void fillData() {
         Contact c1 = new Contact("mohammed a", "050", "dkfs", "fdsdf", "fsdfds", "dfdsf");
-        Contact c2 = new Contact("mohammed alageel", "051", "dkfs", "fdsdf", "fsdfds", "dfdsf");
+        Contact c2 = new Contact("Mohammed alageel", "051", "dkfs", "fdsdf", "fsdfds", "dfdsf");
         Contact c3 = new Contact("ahmed asdk", "052", "dkfs", "fdsdf", "fsdfds", "dfdsf");
         Contact c4 = new Contact("ziyad", "053", "dkfs", "fdsdf", "fsdfds", "dfdsf");
 
@@ -32,8 +32,9 @@ public class PhonebookCLI {
         phonebook.addEvent("event2", c3.getName(), "2020", "rrr3");
         phonebook.addEvent("event3", c4.getName(), "2020", "rrr4");
 
-        phonebook.deleteContact(new ContactNameEquals(c3.getName())); // should delete contact and its event
+//        phonebook.deleteContact(new ContactNameEquals(c3.getName())); // should delete contact and its event
 
+        phonebook.displayContacts();
     }
 
     public void run() {
