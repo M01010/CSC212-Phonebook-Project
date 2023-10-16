@@ -44,10 +44,10 @@ public class Event implements Comparable<Event> {
         contacts.findFirst();
         String res = "";
         while (!contacts.last()) {
-            res += contacts.retrieve().getName() + " ";
+            res += contacts.retrieve().getName() + " - ";
             contacts.findNext();
         }
-        res += contacts.retrieve().getName() + " ";
+        res += contacts.retrieve().getName();
         return res;
     }
 

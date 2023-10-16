@@ -40,7 +40,8 @@ public class PhonebookCLI {
     public void run() {
         boolean run = true;
         while (run) {
-            System.out.println();
+            System.out.println("Welcome to the Linked Tree Phonebook!");
+            System.out.println("Please choose an option:");
             System.out.println("1. Add a contact");
             System.out.println("2. Search for a contact");
             System.out.println("3. Delete a contact");
