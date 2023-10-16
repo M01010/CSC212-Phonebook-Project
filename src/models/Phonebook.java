@@ -39,6 +39,7 @@ public class Phonebook {
         // if theres no contact with the same name
         if (c == null) {
             return false;
+
         }
         Event e = searchEvents(new EventTitleEquals(title));
         // if theres an event with the same title
@@ -85,7 +86,7 @@ public class Phonebook {
     }
 
     /**
-     * O(N^2) or O(N)
+     * O(N)
      */
     public Event deleteEvent(Condition<Event> cond) {
         return events.delete(cond);

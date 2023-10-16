@@ -8,6 +8,7 @@ public class ContactExists implements Condition<Contact> {
     public ContactExists(Contact c) {
         this.contact = c;
     }
+
     @Override
     public boolean test(Contact data) {
         return contact.getName().equalsIgnoreCase(data.getName()) || contact.getPhoneNumber().equalsIgnoreCase(data.getPhoneNumber());

@@ -27,12 +27,11 @@ public class Event implements Comparable<Event> {
      */
     @Override
     public String toString() {
-        String s ;
-        if(contacts.length()==1){
-            s= "Contact: ";
-        }
-        else{
-            s= "Contacts: ";
+        String s;
+        if (contacts.length() == 1) {
+            s = "Contact: ";
+        } else {
+            s = "Contacts: ";
         }
         return "Event title: " + title + "\n" + s + getContactNames() + "\n" + "Event date and time (MM/DD/YYYY HH:MM): " + dateTime + "\n" + "Event location: " + location;
     }
@@ -82,7 +81,6 @@ public class Event implements Comparable<Event> {
         return contacts.search(cond);
     }
 
-   
 
     /**
      * O(1)

@@ -13,6 +13,7 @@ public class EventHasContact implements Condition<Event> {
     public EventHasContact(Contact contact) {
         this.contact = contact;
     }
+
     @Override
     public boolean test(Event data) {
         Contact res = data.searchContacts(new ContactNameEquals(contact.getName()));

@@ -14,6 +14,7 @@ public class EventHasContactAndDateEquals implements Condition<Event> {
         this.dateTime = dateTime;
         this.c = c;
     }
+
     @Override
     public boolean test(Event data) {
         return data.contactIsSchedueled(dateTime, c);

@@ -50,10 +50,9 @@ public class PhonebookCLI {
             System.out.println("8. Print all contacts sharing an event");
             System.out.println("9. Exit");
             System.out.println();
-            String userInput = inputService.getString("Enter your choice: ", new String[]{"1", "2", "3", "4", "5", "6", "7", "8", "9"});
+            String userInput = inputService.getOption("Enter your choice: ", new String[]{"1", "2", "3", "4", "5", "6", "7", "8", "9"});
             if (userInput.equals("1")) {
                 // add contact
-//                inputService.clearBuffer();
                 String name = inputService.getLine("Enter a name: ");
                 String phoneNumber = inputService.getNumber("Enter a phone number: ");
                 String email = inputService.getEmail("Enter a email: ");
@@ -79,7 +78,8 @@ public class PhonebookCLI {
             } else if (userInput.equals("3")) {
                 // delete a contact
                 String name = inputService.getLine("Enter the contact's name: ");
-                Contact c = phonebook.deleteContact(new ContactNameEquals(name));
+                Condition<Contact> cond = new ContactNameEquals(name);
+                Contact c = phonebook.deleteContact(cond);
                 if (c == null) {
                     System.out.println("no contact found :(");
                 } else {
@@ -95,14 +95,14 @@ public class PhonebookCLI {
                 if (added) {
                     System.out.println("Event added successfully");
                 } else {
-                    System.out.println("Cant add event, no user with that name");
+                    System.out.println("Cant add event");
                 }
             } else if (userInput.equals("5")) {
                 // print event details
                 System.out.println("Enter search criteria: ");
                 System.out.println("1. contact name");
                 System.out.println("2. Event title");
-                String choice = inputService.getString("Enter your choice: ", new String[]{"1", "2"});
+                String choice = inputService.getOption("Enter your choice: ", new String[]{"1", "2"});
                 Condition<Event> cond = null;
                 if (choice.equals("1")) {
                     String name = inputService.getLine("Enter the contact name: ");
@@ -112,12 +112,12 @@ public class PhonebookCLI {
                     String title = inputService.getLine("Enter the event title: ");
                     cond = new EventTitleEquals(title);
                 }
-                LinkedList<Event> l = phonebook.filterEvents(cond);
-                if (l.empty()) {
+                Event e = phonebook.searchEvents(cond);
+                if (e == null) {
                     System.out.println("no results :(");
                 } else {
-                    System.out.println("Events found!");
-                    l.display();
+                    System.out.println("Event found!");
+                    System.out.println(e);
                 }
             } else if (userInput.equals("6")) {
                 // print contacts by first name
@@ -138,15 +138,12 @@ public class PhonebookCLI {
                 String title = inputService.getLine("Enter the event title: ");
                 Condition<Event> cond = new EventTitleEquals(title);
                 Event e = phonebook.searchEvents(cond);
-                if (e != null) {
-                    LinkedList<Contact> l = e.getContacts();
-                    if (l.empty()) {
-                        System.out.println("no events added yet :(");
-                    } else {
-                        l.display();
-                    }
-                } else {
+                // no event found
+                if (e == null) {
                     System.out.println("Couldnt find event :(");
+                } else {
+                    LinkedList<Contact> l = e.getContacts();
+                    l.display();
                 }
             } else if (userInput.equals("9")) {
                 // exit
@@ -163,25 +160,28 @@ public class PhonebookCLI {
         System.out.println("3. Email Address");
         System.out.println("4. Address");
         System.out.println("5. Birthday");
-        String choice = inputService.getString("Enter your choice: ", new String[]{"1", "2", "3", "4", "5"});
-//        inputService.clearBuffer();
-        Condition<Contact> cond = null;
+        String choice = inputService.getOption("Enter your choice: ", new String[]{"1", "2", "3", "4", "5"});
         if (choice.equals("1")) {
             String name = inputService.getLine("Enter the contact's name: ");
-            cond = new ContactNameEquals(name);
+            Condition<Contact> cond = new ContactNameEquals(name);
+            return phonebook.searchContacts(cond);
         } else if (choice.equals("2")) {
             String number = inputService.getNumber("Enter the contact's number: ");
-            cond = new ContactPhoneNumberEquals(number);
+            Condition<Contact> cond = new ContactPhoneNumberEquals(number);
+            return phonebook.searchContacts(cond);
         } else if (choice.equals("3")) {
             String email = inputService.getEmail("Enter the contact's email: ");
-            cond = new ContactEmailAddressEquals(email);
+            Condition<Contact> cond = new ContactEmailAddressEquals(email);
+            return phonebook.searchContacts(cond);
         } else if (choice.equals("4")) {
             String address = inputService.getLine("Enter the contact's address: ");
-            cond = new ContactAddressEquals(address);
+            Condition<Contact> cond = new ContactAddressEquals(address);
+            return phonebook.searchContacts(cond);
         } else if (choice.equals("5")) {
             String birthday = inputService.getDate("Enter the contact's birthday: ");
-            cond = new ContactBirthdayEquals(birthday);
+            Condition<Contact> cond = new ContactBirthdayEquals(birthday);
+            return phonebook.searchContacts(cond);
         }
-        return phonebook.searchContacts(cond);
+        return null;
     }
 }
