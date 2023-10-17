@@ -1,6 +1,17 @@
 package models;
 
-
+/*************Example***************
+ CLASS: Contact.java
+ CSC212 Data structures - Project phase I
+ Fall 2023
+ EDIT DATE:
+ 10/5/2023
+ TEAM:
+ farmers
+ AUTHORS:
+ Mohammed, (ID443101692)
+ Musad,    (ID443101092)
+ ***********************************/
 public class Contact implements Comparable<Contact> {
 
     private final String name;

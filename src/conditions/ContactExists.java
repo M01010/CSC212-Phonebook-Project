@@ -1,7 +1,17 @@
 package conditions;
 
 import models.Contact;
-
+/*************Example***************
+ CLASS: ContactExists.java
+ CSC212 Data structures - Project phase I
+ Fall 2023
+ EDIT DATE:
+ 10/16/2023
+ TEAM:
+ farmers
+ AUTHORS:
+ Mohammed, (ID443101692)
+ ***********************************/
 public class ContactExists implements Condition<Contact> {
     private final Contact contact;
 

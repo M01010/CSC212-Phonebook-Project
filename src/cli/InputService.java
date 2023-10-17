@@ -2,6 +2,17 @@ package cli;
 
 import java.util.Scanner;
 
+/*************Example***************
+ CLASS: InputService.java
+ CSC212 Data structures - Project phase I
+ Fall 2023
+ EDIT DATE:
+ 10/17/2023
+ TEAM:
+ farmers
+ AUTHORS:
+ Mohammed, (ID443101692)
+ ***********************************/
 public class InputService {
     private final Scanner input;
 
