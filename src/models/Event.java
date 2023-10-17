@@ -1,6 +1,5 @@
 package models;
 
-import conditions.Condition;
 import conditions.ContactNameEquals;
 import linkedlist.LinkedList;
 
@@ -38,7 +37,7 @@ public class Event implements Comparable<Event> {
 
     /**
      * O(N)
-     * returns all contacts names in a sting
+     * returns all contact names in a sting
      */
     private String getContactNames() {
         contacts.findFirst();
@@ -63,22 +62,15 @@ public class Event implements Comparable<Event> {
      * O(N)
      */
     public boolean contactIsSchedueled(String dateTime, Contact c) {
-        return this.dateTime.equalsIgnoreCase(dateTime) && contactInEvent(c);
+        return this.dateTime.equalsIgnoreCase(dateTime) && contactInEvent(c.getName());
     }
 
     /**
      * O(N)
      */
-    public boolean contactInEvent(Contact c) {
-        Contact res = contacts.search(new ContactNameEquals(c.getName()));
+    public boolean contactInEvent(String name) {
+        Contact res = contacts.search(new ContactNameEquals(name));
         return res != null;
-    }
-
-    /**
-     * O(N)
-     */
-    public Contact searchContacts(Condition<Contact> cond) {
-        return contacts.search(cond);
     }
 
 

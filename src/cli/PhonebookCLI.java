@@ -147,7 +147,7 @@ public class PhonebookCLI {
                 Condition<Event> cond = null;
                 if (choice.equals("1")) {
                     String name = inputService.getLine("Enter the contact name: ");
-                    cond = new EventContactNameEquals(name);
+                    cond = new EventHasContact(name);
                 }
                 if (choice.equals("2")) {
                     String title = inputService.getLine("Enter the event title: ");

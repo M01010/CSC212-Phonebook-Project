@@ -3,7 +3,7 @@ package conditions;
 import models.Contact;
 
 public class ContactFirstNameEquals implements Condition<Contact> {
-    final String fname;
+    private final String fname;
 
     public ContactFirstNameEquals(String fname) {
         this.fname = fname;

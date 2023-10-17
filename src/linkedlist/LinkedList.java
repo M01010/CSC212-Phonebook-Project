@@ -63,6 +63,9 @@ public class LinkedList<T extends Comparable<T>> {
         }
     }
 
+    /**
+     * O(N)
+     */
     public int length() {
         if (empty()) {
             return 0;

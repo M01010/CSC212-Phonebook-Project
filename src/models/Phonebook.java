@@ -39,7 +39,6 @@ public class Phonebook {
         // if theres no contact with the same name
         if (c == null) {
             return false;
-
         }
         Event e = searchEvents(new EventTitleEquals(title));
         // if theres an event with the same title
@@ -80,7 +79,7 @@ public class Phonebook {
     public Contact deleteContact(Condition<Contact> cond) {
         Contact c = contacts.delete(cond);
         if (c != null) {
-            events.deleteAll(new EventHasContact(c));
+            events.deleteAll(new EventHasContact(c.getName()));
         }
         return c;
     }

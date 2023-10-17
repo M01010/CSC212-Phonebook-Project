@@ -1,22 +1,20 @@
 package conditions;
 
-import models.Contact;
 import models.Event;
 
 public class EventHasContact implements Condition<Event> {
-    private final Contact contact;
 
-
+    private final String name;
     /**
      * Test: O(N)
      */
-    public EventHasContact(Contact contact) {
-        this.contact = contact;
+    public EventHasContact(String name) {
+        this.name = name;
     }
 
     @Override
     public boolean test(Event data) {
-        Contact res = data.searchContacts(new ContactNameEquals(contact.getName()));
-        return res != null;
+        return data.contactInEvent(name);
     }
+
 }
