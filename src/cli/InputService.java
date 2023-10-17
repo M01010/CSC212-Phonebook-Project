@@ -50,7 +50,7 @@ public class InputService {
     public String getDate(String msg) {
         String s = getString(msg);
         while (!StringValidator.isDate(s)) {
-            System.out.println("Please enter a correct date");
+            System.out.println("Please enter a correct date (MM/DD/YY)");
             s = getString(msg);
         }
         return s;
@@ -67,8 +67,8 @@ public class InputService {
 
     public String getNumber(String msg) {
         String s = getString(msg);
-        while (!StringValidator.isDigit(s)) {
-            System.out.println("Please enter a correct number");
+        while (!StringValidator.isPhoneNumber(s)) {
+            System.out.println("Please enter a correct number (10 digits)");
             s = getString(msg);
         }
         return s;

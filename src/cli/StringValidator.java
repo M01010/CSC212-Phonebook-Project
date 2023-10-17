@@ -92,4 +92,16 @@ public class StringValidator {
         }
         return true;
     }
+
+    public static boolean isPhoneNumber(String s) {
+        // isnt all numbers
+        if (!isDigit(s)) {
+            return false;
+        }
+        //isnt of length 10
+        if (s.length() != 10) {
+            return false;
+        }
+        return true;
+    }
 }
