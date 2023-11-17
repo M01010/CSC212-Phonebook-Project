@@ -218,6 +218,9 @@ public class BST<T extends Comparable<T>> implements StructureOperations<T> {
             return null;
         }
         T temp = deleterec(n.left, condition);
+        if (temp != null) {
+            return temp;
+        }
         if (condition.test(n.data)) {
             T data = n.data;
             remove_key(n.key);
