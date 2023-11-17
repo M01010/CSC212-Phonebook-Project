@@ -1,6 +1,7 @@
 package linkedlist;
 
 import java.util.function.Predicate;
+
 /*************Example***************
  CLASS: LinkedList.java
  CSC212 Data structures - Project phase I
@@ -13,7 +14,7 @@ import java.util.function.Predicate;
  Mohammed, (ID443101692)
  Faris,    (ID443105725)
  ***********************************/
-public class LinkedList<T extends Comparable<T>> implements StructureOperations<T>{
+public class LinkedList<T extends Comparable<T>> implements StructureOperations<T> {
     private Node<T> head;
     private Node<T> current;
 
@@ -189,22 +190,29 @@ public class LinkedList<T extends Comparable<T>> implements StructureOperations<
     /**
      * Searches the list by condition
      * deletes all matching elements
-     * O(N^2)
+     * O(N)
      */
     public void deleteAll(Predicate<T> condition) {
-        current = head;
-        while (current != null) {
-            if (condition.test(current.getData())) {
-                if (last()) {
-                    remove();
-                    break;
-                }
-                remove();
-            } else {
-                current = current.getNext();
-            }
+        // while head matches the condition we delete the element
+        while (head != null && condition.test(head.getData())) {
+            head = head.getNext();
         }
-        current = head;
+        if (empty()) {
+            current = null;
+            return;
+        }
+        Node<T> prev = head;
+        Node<T> cur = head.getNext();
+        while (cur != null) {
+            if (condition.test(cur.getData())) {
+                // if element matches -> link prev to element after current then move only current
+                prev.setNext(cur.getNext());
+                cur = cur.getNext();
+                continue;
+            }
+            prev = prev.getNext();
+            cur = cur.getNext();
+        }
     }
 
     /**

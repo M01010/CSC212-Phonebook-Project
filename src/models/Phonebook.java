@@ -86,7 +86,7 @@ public class Phonebook {
     }
 
     /**
-     * O(N^2)
+     * O(N)
      */
     public Contact deleteContact(Predicate<Contact> cond) {
         Contact c = contacts.delete(cond);
