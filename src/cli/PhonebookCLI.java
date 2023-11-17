@@ -1,6 +1,6 @@
 package cli;
 
-import linkedlist.LinkedList;
+import Structures.LinkedList;
 import models.*;
 import java.util.function.Predicate;
 /*************Example***************

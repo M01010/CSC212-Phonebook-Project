@@ -1,4 +1,4 @@
-package linkedlist;
+package Structures;
 
 import java.util.function.Predicate;
 
@@ -15,6 +15,16 @@ import java.util.function.Predicate;
  Faris,    (ID443105725)
  ***********************************/
 public class LinkedList<T extends Comparable<T>> implements StructureOperations<T> {
+    public static class Node<T> {
+        private final T data;
+        private Node<T> next;
+
+        public Node(T data) {
+            this.data = data;
+            next = null;
+        }
+    }
+
     private Node<T> head;
     private Node<T> current;
 
@@ -43,21 +53,21 @@ public class LinkedList<T extends Comparable<T>> implements StructureOperations<
      * O(1)
      */
     public void findNext() {
-        current = current.getNext();
+        current = current.next;
     }
 
     /**
      * O(1)
      */
     public T retrieve() {
-        return current.getData();
+        return current.data;
     }
 
     /**
      * O(1)
      */
     public boolean last() {
-        return current.getNext() == null;
+        return current.next == null;
     }
 
 
@@ -69,9 +79,9 @@ public class LinkedList<T extends Comparable<T>> implements StructureOperations<
         if (empty()) {
             head = current = temp;
         } else {
-            temp.setNext(current.getNext());
-            current.setNext(temp);
-            current = current.getNext();
+            temp.next = current.next;
+            current.next = temp;
+            current = current.next;
         }
     }
 
@@ -86,7 +96,7 @@ public class LinkedList<T extends Comparable<T>> implements StructureOperations<
         Node<T> temp = head;
         while (temp != null) {
             count++;
-            temp = temp.getNext();
+            temp = temp.next;
         }
         return count;
     }
@@ -98,21 +108,21 @@ public class LinkedList<T extends Comparable<T>> implements StructureOperations<
         if (empty()) {
             return null;
         }
-        T res = current.getData();
+        T res = current.data;
         if (current == head) {
-            head = head.getNext();
+            head = head.next;
             current = head;
             return res;
         }
         Node<T> prev = head;
-        while (prev.getNext() != current) {
-            prev = prev.getNext();
+        while (prev.next != current) {
+            prev = prev.next;
         }
-        prev.setNext(current.getNext());
+        prev.next = current.next;
         if (last()) {
             current = head;
         } else {
-            current = current.getNext();
+            current = current.next;
         }
         return res;
     }
@@ -123,15 +133,15 @@ public class LinkedList<T extends Comparable<T>> implements StructureOperations<
      */
     public void add(T data) {
         // insert at head or before head
-        if (empty() || head.getData().compareTo(data) >= 0) {
+        if (empty() || head.data.compareTo(data) >= 0) {
             Node<T> temp = new Node<>(data);
-            temp.setNext(head);
+            temp.next = head;
             head = current = temp;
             return;
         }
         current = head;
-        while (current.getNext() != null && current.getNext().getData().compareTo(data) <= 0) {
-            current = current.getNext();
+        while (current.next != null && current.next.data.compareTo(data) <= 0) {
+            current = current.next;
         }
         insert(data);
     }
@@ -145,10 +155,10 @@ public class LinkedList<T extends Comparable<T>> implements StructureOperations<
     public T search(Predicate<T> condition) {
         Node<T> temp = head;
         while (temp != null) {
-            if (condition.test(temp.getData())) {
-                return temp.getData();
+            if (condition.test(temp.data)) {
+                return temp.data;
             }
-            temp = temp.getNext();
+            temp = temp.next;
         }
         return null;
     }
@@ -162,10 +172,10 @@ public class LinkedList<T extends Comparable<T>> implements StructureOperations<
         LinkedList<T> l = new LinkedList<>();
         Node<T> temp = head;
         while (temp != null) {
-            if (condition.test(temp.getData())) {
-                l.insert(temp.getData());
+            if (condition.test(temp.data)) {
+                l.insert(temp.data);
             }
-            temp = temp.getNext();
+            temp = temp.next;
         }
         return l;
     }
@@ -178,10 +188,10 @@ public class LinkedList<T extends Comparable<T>> implements StructureOperations<
     public T delete(Predicate<T> condition) {
         current = head;
         while (current != null) {
-            if (condition.test(current.getData())) {
+            if (condition.test(current.data)) {
                 return remove();
             }
-            current = current.getNext();
+            current = current.next;
         }
         current = head;
         return null;
@@ -194,24 +204,24 @@ public class LinkedList<T extends Comparable<T>> implements StructureOperations<
      */
     public void deleteAll(Predicate<T> condition) {
         // while head matches the condition we delete the element
-        while (head != null && condition.test(head.getData())) {
-            head = head.getNext();
+        while (head != null && condition.test(head.data)) {
+            head = head.next;
         }
         if (empty()) {
             current = null;
             return;
         }
         Node<T> prev = head;
-        Node<T> cur = head.getNext();
+        Node<T> cur = head.next;
         while (cur != null) {
-            if (condition.test(cur.getData())) {
+            if (condition.test(cur.data)) {
                 // if element matches -> link prev to element after current then move only current
-                prev.setNext(cur.getNext());
-                cur = cur.getNext();
+                prev.next = cur.next;
+                cur = cur.next;
                 continue;
             }
-            prev = prev.getNext();
-            cur = cur.getNext();
+            prev = prev.next;
+            cur = cur.next;
         }
     }
 
@@ -222,9 +232,9 @@ public class LinkedList<T extends Comparable<T>> implements StructureOperations<
     public void display() {
         Node<T> temp = head;
         while (temp != null) {
-            System.out.println(temp.getData());
+            System.out.println(temp.data);
             System.out.println();
-            temp = temp.getNext();
+            temp = temp.next;
         }
         System.out.println();
     }

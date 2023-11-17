@@ -1,4 +1,6 @@
-package linkedlist;
+package Structures;
+
+import Structures.LinkedList;
 
 import java.util.function.Predicate;
 

@@ -1,6 +1,6 @@
 package models;
 
-import linkedlist.LinkedList;
+import Structures.LinkedList;
 import java.util.function.Predicate;
 /*************Example***************
  CLASS: Event.java
