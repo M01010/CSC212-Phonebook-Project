@@ -1,5 +1,6 @@
 package cli;
 
+import Structures.BST;
 import Structures.LinkedList;
 import models.*;
 import java.util.function.Predicate;
@@ -130,8 +131,7 @@ public class PhonebookCLI {
             } else if (userInput.equals("3")) {
                 // delete a contact
                 String name = inputService.getLine("Enter the contact's name: ");
-                Predicate<Contact> cond = contact -> contact.getName().equalsIgnoreCase(name);
-                Contact c = phonebook.deleteContact(cond);
+                Contact c = phonebook.deleteContact(name);
                 if (c == null) {
                     System.out.println("no contact found :(");
                 } else {
@@ -195,8 +195,8 @@ public class PhonebookCLI {
                 if (e == null) {
                     System.out.println("Couldnt find event :(");
                 } else {
-                    LinkedList<Contact> l = e.getContacts();
-                    l.display();
+                    BST<Contact> t = e.getContacts();
+                    t.display();
                 }
             } else if (userInput.equals("9")) {
                 // exit

@@ -11,7 +11,5 @@ public interface StructureOperations<T extends Comparable<T>> {
 
     T delete(Predicate<T> condition);
 
-    void deleteAll(Predicate<T> condition);
-
     void display();
 }

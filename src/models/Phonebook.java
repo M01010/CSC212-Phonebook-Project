@@ -1,5 +1,6 @@
 package models;
 
+import Structures.BST;
 import Structures.LinkedList;
 import java.util.function.Predicate;
 /*************Example***************
@@ -14,14 +15,14 @@ import java.util.function.Predicate;
  Mohammed, (ID443101692)
  ***********************************/
 public class Phonebook {
-    private final LinkedList<Contact> contacts;
+    private final BST<Contact> contacts;
     private final LinkedList<Event> events;
 
     /**
      * O(1)
      */
     public Phonebook() {
-        this.contacts = new LinkedList<>();
+        this.contacts = new BST<>();
         this.events = new LinkedList<>();
     }
 
@@ -34,7 +35,7 @@ public class Phonebook {
         Contact result = contacts.search(cond);
         // didnt find a contact with same name or number
         if (result == null) {
-            contacts.add(c);
+            contacts.insert(c.getName(), c);
             return true;
         } else {
             return false;
@@ -51,24 +52,33 @@ public class Phonebook {
         if (c == null) {
             throw new Exception("Cant add Event, No contact with that name");
         }
-        Predicate<Event> cond2 = event -> event.getTitle().equalsIgnoreCase(title);
-        Event e = searchEvents(cond2);
-        // if theres an event with the same title
-        if (e != null) {
-            e.addContact(c);
-            return true;
-        }
-        // add new event
-        Predicate<Event> cond3 = event -> event.contactIsSchedueled(date, c);
-        Event result = events.search(cond3); // N^2
+        Predicate<Event> cond2 = event -> event.getDateTime().equalsIgnoreCase(date) && event.contactInEvent(c.getName());
+        Event result = events.search(cond2); // N^2
         // if contact is not schedueled
         if (result == null) {
-            Event newEvent = new Event(title, c, date, location);
+            // add new event
+            LinkedList<Contact> temp_contacts = new LinkedList<>();
+            temp_contacts.insert(c);
+            Event newEvent = new Event(title, temp_contacts, date, location, false);
             events.add(newEvent);
             return true;
         }
         // contact is busy now
         throw new Exception("Cant add Event, Contact has another event at the same time");
+    }
+
+
+    /**
+     * O(N^2)
+     */
+    public Contact deleteContact(String name) {
+        Predicate<Contact> cond = contact -> contact.getName().equalsIgnoreCase(name);
+        Contact c = contacts.delete(cond);
+        if (c != null) {
+            Predicate<Event> cond2 = event -> event.contactInEvent(name);
+            events.deleteAll(cond2);
+        }
+        return c;
     }
 
     /**
@@ -88,35 +98,8 @@ public class Phonebook {
     /**
      * O(N)
      */
-    public Contact deleteContact(Predicate<Contact> cond) {
-        Contact c = contacts.delete(cond);
-        if (c != null) {
-            Predicate<Event> cond2 = event -> event.contactInEvent(c.getName());
-            events.deleteAll(cond2);
-        }
-        return c;
-    }
-
-    /**
-     * O(N)
-     */
-    public Event deleteEvent(Predicate<Event> cond) {
-        return events.delete(cond);
-    }
-
-    /**
-     * O(N)
-     */
     public LinkedList<Contact> filterContacts(Predicate<Contact> cond) {
         return contacts.filter(cond);
-    }
-
-
-    /**
-     * O(N)
-     */
-    public LinkedList<Event> filterEvents(Predicate<Event> cond) {
-        return events.filter(cond);
     }
 
     /**

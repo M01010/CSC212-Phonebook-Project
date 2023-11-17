@@ -1,7 +1,10 @@
 package models;
 
+import Structures.BST;
 import Structures.LinkedList;
+
 import java.util.function.Predicate;
+
 /*************Example***************
  CLASS: Event.java
  CSC212 Data structures - Project phase I
@@ -16,19 +19,27 @@ import java.util.function.Predicate;
  ***********************************/
 public class Event implements Comparable<Event> {
     private final String title;
-    private final LinkedList<Contact> contacts;
+    private final BST<Contact> contacts;
     private final String dateTime;
     private final String location;
+    private final boolean isAppointment;
 
     /**
      * O(1)
      */
-    public Event(String title, Contact contact, String dateTime, String location) {
+    public Event(String title, LinkedList<Contact> contacts, String dateTime, String location, boolean isAppointment) {
         this.title = title;
-        this.contacts = new LinkedList<>();
-        this.contacts.insert(contact);
+
+        this.contacts = new BST<>();
+        contacts.findFirst();
+        while (!contacts.last()) {
+            this.contacts.insert(contacts.retrieve().getName(), contacts.retrieve());
+        }
+        this.contacts.insert(contacts.retrieve().getName(), contacts.retrieve());
+
         this.dateTime = dateTime;
         this.location = location;
+        this.isAppointment = isAppointment;
     }
 
     /**
@@ -38,7 +49,7 @@ public class Event implements Comparable<Event> {
     @Override
     public String toString() {
         String s;
-        if (contacts.length() == 1) {
+        if (isAppointment) {
             s = "Contact: ";
         } else {
             s = "Contacts: ";
@@ -48,14 +59,15 @@ public class Event implements Comparable<Event> {
 
     /**
      * O(N)
-     * returns all contact names in a sting
+     * returns all contact names in a string
      */
     private String getContactNames() {
-        contacts.findFirst();
+        LinkedList<Contact> l = contacts.filter(x -> true);
+        l.findFirst();
         String res = "";
-        while (!contacts.last()) {
+        while (!l.last()) {
             res += contacts.retrieve().getName() + " - ";
-            contacts.findNext();
+            l.findNext();
         }
         res += contacts.retrieve().getName();
         return res;
@@ -67,13 +79,6 @@ public class Event implements Comparable<Event> {
     @Override
     public int compareTo(Event e) {
         return title.toLowerCase().compareTo(e.title.toLowerCase());
-    }
-
-    /**
-     * O(N)
-     */
-    public boolean contactIsSchedueled(String dateTime, Contact c) {
-        return this.dateTime.equalsIgnoreCase(dateTime) && contactInEvent(c.getName());
     }
 
     /**
@@ -110,14 +115,7 @@ public class Event implements Comparable<Event> {
     /**
      * O(1)
      */
-    public void addContact(Contact c) {
-        contacts.insert(c);
-    }
-
-    /**
-     * O(1)
-     */
-    public LinkedList<Contact> getContacts() {
+    public BST<Contact> getContacts() {
         return contacts;
     }
 }
