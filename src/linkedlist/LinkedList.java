@@ -1,6 +1,6 @@
 package linkedlist;
 
-import conditions.Condition;
+import java.util.function.Predicate;
 /*************Example***************
  CLASS: LinkedList.java
  CSC212 Data structures - Project phase I
@@ -141,7 +141,7 @@ public class LinkedList<T extends Comparable<T>> {
      * if not found: will return null
      * O(N)
      */
-    public T search(Condition<T> condition) {
+    public T search(Predicate<T> condition) {
         Node<T> temp = head;
         while (temp != null) {
             if (condition.test(temp.getData())) {
@@ -157,8 +157,8 @@ public class LinkedList<T extends Comparable<T>> {
      * returns a list of matching elements
      * O(N)
      */
-    public LinkedList<T> filter(Condition<T> condition) {
-        LinkedList<T> l = new LinkedList<T>();
+    public LinkedList<T> filter(Predicate<T> condition) {
+        LinkedList<T> l = new LinkedList<>();
         Node<T> temp = head;
         while (temp != null) {
             if (condition.test(temp.getData())) {
@@ -174,7 +174,7 @@ public class LinkedList<T extends Comparable<T>> {
      * deletes 1 matching element
      * O(N)
      */
-    public T delete(Condition<T> condition) {
+    public T delete(Predicate<T> condition) {
         current = head;
         while (current != null) {
             if (condition.test(current.getData())) {
@@ -191,7 +191,7 @@ public class LinkedList<T extends Comparable<T>> {
      * deletes all matching elements
      * O(N^2)
      */
-    public void deleteAll(Condition<T> condition) {
+    public void deleteAll(Predicate<T> condition) {
         current = head;
         while (current != null) {
             if (condition.test(current.getData())) {

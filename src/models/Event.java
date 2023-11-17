@@ -1,7 +1,7 @@
 package models;
 
-import conditions.ContactNameEquals;
 import linkedlist.LinkedList;
+import java.util.function.Predicate;
 /*************Example***************
  CLASS: Event.java
  CSC212 Data structures - Project phase I
@@ -25,7 +25,7 @@ public class Event implements Comparable<Event> {
      */
     public Event(String title, Contact contact, String dateTime, String location) {
         this.title = title;
-        this.contacts = new LinkedList<Contact>();
+        this.contacts = new LinkedList<>();
         this.contacts.insert(contact);
         this.dateTime = dateTime;
         this.location = location;
@@ -80,7 +80,8 @@ public class Event implements Comparable<Event> {
      * O(N)
      */
     public boolean contactInEvent(String name) {
-        Contact res = contacts.search(new ContactNameEquals(name));
+        Predicate<Contact> cond = contact -> contact.getName().equalsIgnoreCase(name);
+        Contact res = contacts.search(cond);
         return res != null;
     }
 

@@ -61,7 +61,7 @@ public class InputService {
     public String getDate(String msg) {
         String s = getString(msg);
         while (!StringValidator.isDate(s)) {
-            System.out.println("Please enter a correct date (MM/DD/YY)");
+            System.out.println("Please enter a correct date (MM/DD/YYYY)");
             s = getString(msg);
         }
         return s;

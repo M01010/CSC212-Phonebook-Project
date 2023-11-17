@@ -1,7 +1,7 @@
 package models;
 
-import conditions.*;
 import linkedlist.LinkedList;
+import java.util.function.Predicate;
 /*************Example***************
  CLASS: Phonebook.java
  CSC212 Data structures - Project phase I
@@ -21,8 +21,8 @@ public class Phonebook {
      * O(1)
      */
     public Phonebook() {
-        this.contacts = new LinkedList<Contact>();
-        this.events = new LinkedList<Event>();
+        this.contacts = new LinkedList<>();
+        this.events = new LinkedList<>();
     }
 
 
@@ -30,7 +30,7 @@ public class Phonebook {
      * O(N)
      */
     public boolean addContact(Contact c) {
-        ContactExists cond = new ContactExists(c);
+        Predicate<Contact> cond = contact -> c.getName().equalsIgnoreCase(contact.getName()) || c.getPhoneNumber().equalsIgnoreCase(contact.getPhoneNumber());
         Contact result = contacts.search(cond);
         // didnt find a contact with same name or number
         if (result == null) {
@@ -44,21 +44,23 @@ public class Phonebook {
     /**
      * O(N^2)
      */
-    public boolean addEvent(String title, String name, String date, String location) {
-        Contact c = searchContacts(new ContactNameEquals(name));
+    public boolean addEvent(String title, String name, String date, String location) throws Exception {
+        Predicate<Contact> cond = contact -> contact.getName().equalsIgnoreCase(name);
+        Contact c = searchContacts(cond);
         // if theres no contact with the same name
         if (c == null) {
-            return false;
+            throw new Exception("Cant add Event, No contact with that name");
         }
-        Event e = searchEvents(new EventTitleEquals(title));
+        Predicate<Event> cond2 = event -> event.getTitle().equalsIgnoreCase(title);
+        Event e = searchEvents(cond2);
         // if theres an event with the same title
         if (e != null) {
             e.addContact(c);
             return true;
         }
         // add new event
-        EventHasContactAndDateEquals cond = new EventHasContactAndDateEquals(date, c);
-        Event result = events.search(cond); // N^2
+        Predicate<Event> cond3 = event -> event.contactIsSchedueled(date, c);
+        Event result = events.search(cond3); // N^2
         // if contact is not schedueled
         if (result == null) {
             Event newEvent = new Event(title, c, date, location);
@@ -66,30 +68,31 @@ public class Phonebook {
             return true;
         }
         // contact is busy now
-        return false;
+        throw new Exception("Cant add Event, Contact has another event at the same time");
     }
 
     /**
      * O(N)
      */
-    public Contact searchContacts(Condition<Contact> cond) {
+    public Contact searchContacts(Predicate<Contact> cond) {
         return contacts.search(cond);
     }
 
     /**
      * O(N)
      */
-    public Event searchEvents(Condition<Event> cond) {
+    public Event searchEvents(Predicate<Event> cond) {
         return events.search(cond);
     }
 
     /**
      * O(N^2)
      */
-    public Contact deleteContact(Condition<Contact> cond) {
+    public Contact deleteContact(Predicate<Contact> cond) {
         Contact c = contacts.delete(cond);
         if (c != null) {
-            events.deleteAll(new EventHasContact(c.getName()));
+            Predicate<Event> cond2 = event -> event.contactInEvent(c.getName());
+            events.deleteAll(cond2);
         }
         return c;
     }
@@ -97,14 +100,14 @@ public class Phonebook {
     /**
      * O(N)
      */
-    public Event deleteEvent(Condition<Event> cond) {
+    public Event deleteEvent(Predicate<Event> cond) {
         return events.delete(cond);
     }
 
     /**
      * O(N)
      */
-    public LinkedList<Contact> filterContacts(Condition<Contact> cond) {
+    public LinkedList<Contact> filterContacts(Predicate<Contact> cond) {
         return contacts.filter(cond);
     }
 
@@ -112,7 +115,7 @@ public class Phonebook {
     /**
      * O(N)
      */
-    public LinkedList<Event> filterEvents(Condition<Event> cond) {
+    public LinkedList<Event> filterEvents(Predicate<Event> cond) {
         return events.filter(cond);
     }
 

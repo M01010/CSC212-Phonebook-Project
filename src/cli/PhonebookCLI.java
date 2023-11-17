@@ -1,9 +1,8 @@
 package cli;
 
-import conditions.*;
 import linkedlist.LinkedList;
 import models.*;
-
+import java.util.function.Predicate;
 /*************Example***************
  CLASS: PhonebookCLI.java
  CSC212 Data structures - Project phase I
@@ -37,14 +36,14 @@ public class PhonebookCLI {
         phonebook.addContact(c4);
 
         phonebook.addContact(c1); //double
+        try {
+            phonebook.addEvent("event1", c1.getName(), "2020", "rrr");
+            phonebook.addEvent("event1", c2.getName(), "2022", "r1r");
 
-        phonebook.addEvent("event1", c1.getName(), "2020", "rrr");
-        phonebook.addEvent("event1", c2.getName(), "2022", "r1r");
-
-        phonebook.addEvent("event2", c3.getName(), "2020", "rrr3");
-        phonebook.addEvent("event3", c4.getName(), "2020", "rrr4");
-
-//        phonebook.deleteContact(new ContactNameEquals(c3.getName())); // should delete contact and its event
+            phonebook.addEvent("event2", c3.getName(), "2020", "rrr3");
+            phonebook.addEvent("event3", c4.getName(), "2020", "rrr4");
+        }
+        catch (Exception ignored) {}
 
         phonebook.displayContacts();
     }
@@ -93,11 +92,11 @@ public class PhonebookCLI {
                     Contact c;
                     if (choice.equals("1")) {
                         String name = inputService.getLine("Enter the contact's name: ");
-                        Condition<Contact> cond = new ContactNameEquals(name);
+                        Predicate<Contact> cond = contact -> contact.getName().equalsIgnoreCase(name);
                         c = phonebook.searchContacts(cond);
                     } else {
                         String number = inputService.getNumber("Enter the contact's number: ");
-                        Condition<Contact> cond = new ContactPhoneNumberEquals(number);
+                        Predicate<Contact> cond = contact -> contact.getPhoneNumber().equalsIgnoreCase(number);
                         c = phonebook.searchContacts(cond);
                     }
                     if (c == null) {
@@ -110,16 +109,16 @@ public class PhonebookCLI {
                     LinkedList<Contact> l;
                     if (choice.equals("3")) {
                         String email = inputService.getEmail("Enter the contact's email: ");
-                        Condition<Contact> cond = new ContactEmailAddressEquals(email);
+                        Predicate<Contact> cond = contact -> contact.getEmail().equalsIgnoreCase(email);
                         l = phonebook.filterContacts(cond);
                     } else if (choice.equals("4")) {
                         String address = inputService.getLine("Enter the contact's address: ");
-                        Condition<Contact> cond = new ContactAddressEquals(address);
+                        Predicate<Contact> cond = contact -> contact.getAddress().equalsIgnoreCase(address);
                         l = phonebook.filterContacts(cond);
                     } else {
                         String birthday = inputService.getDate("Enter the contact's birthday: ");
-                        Condition<Contact> cond = new ContactBirthdayEquals(birthday);
-                        l =phonebook.filterContacts(cond);
+                        Predicate<Contact> cond = contact -> contact.getBirthDate().equalsIgnoreCase(birthday);
+                        l = phonebook.filterContacts(cond);
                     }
                     if (l.empty()) {
                         System.out.println("no contacts found :(");
@@ -131,7 +130,7 @@ public class PhonebookCLI {
             } else if (userInput.equals("3")) {
                 // delete a contact
                 String name = inputService.getLine("Enter the contact's name: ");
-                Condition<Contact> cond = new ContactNameEquals(name);
+                Predicate<Contact> cond = contact -> contact.getName().equalsIgnoreCase(name);
                 Contact c = phonebook.deleteContact(cond);
                 if (c == null) {
                     System.out.println("no contact found :(");
@@ -144,11 +143,12 @@ public class PhonebookCLI {
                 String name = inputService.getLine("Enter contact name: ");
                 String date = inputService.getDateTime("Enter event date and time (MM/DD/YYYY HH:MM): ");
                 String location = inputService.getLine("Enter event location: ");
-                boolean added = phonebook.addEvent(title, name, date, location);
-                if (added) {
+                try {
+                    phonebook.addEvent(title, name, date, location);
                     System.out.println("Event added successfully");
-                } else {
-                    System.out.println("Cant add event");
+                }
+                catch (Exception e) {
+                    System.out.println(e.getMessage());
                 }
             } else if (userInput.equals("5")) {
                 // print event details
@@ -156,14 +156,14 @@ public class PhonebookCLI {
                 System.out.println("1. contact name");
                 System.out.println("2. Event title");
                 String choice = inputService.getOption("Enter your choice: ", new String[]{"1", "2"});
-                Condition<Event> cond = null;
+                Predicate<Event> cond = null;
                 if (choice.equals("1")) {
                     String name = inputService.getLine("Enter the contact name: ");
-                    cond = new EventHasContact(name);
+                    cond = event -> event.contactInEvent(name);
                 }
                 if (choice.equals("2")) {
                     String title = inputService.getLine("Enter the event title: ");
-                    cond = new EventTitleEquals(title);
+                    cond = event -> event.getTitle().equalsIgnoreCase(title);
                 }
                 Event e = phonebook.searchEvents(cond);
                 if (e == null) {
@@ -174,8 +174,8 @@ public class PhonebookCLI {
                 }
             } else if (userInput.equals("6")) {
                 // print contacts by first name
-                String name = inputService.getString("first name: ");
-                ContactFirstNameEquals cond = new ContactFirstNameEquals(name);
+                String fname = inputService.getString("first name: ");
+                Predicate<Contact> cond = contact -> contact.getName().split(" ")[0].equalsIgnoreCase(fname);
                 LinkedList<Contact> l = phonebook.filterContacts(cond);
                 if (l.empty()) {
                     System.out.println("no results :(");
@@ -189,7 +189,7 @@ public class PhonebookCLI {
             } else if (userInput.equals("8")) {
                 // print all contacts sharing an event
                 String title = inputService.getLine("Enter the event title: ");
-                Condition<Event> cond = new EventTitleEquals(title);
+                Predicate<Event> cond = event -> event.getTitle().equalsIgnoreCase(title);
                 Event e = phonebook.searchEvents(cond);
                 // no event found
                 if (e == null) {
