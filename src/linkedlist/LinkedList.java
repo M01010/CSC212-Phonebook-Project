@@ -13,7 +13,7 @@ import java.util.function.Predicate;
  Mohammed, (ID443101692)
  Faris,    (ID443105725)
  ***********************************/
-public class LinkedList<T extends Comparable<T>> {
+public class LinkedList<T extends Comparable<T>> implements StructureOperations<T>{
     private Node<T> head;
     private Node<T> current;
 
