@@ -3,7 +3,9 @@ package cli;
 import Structures.BST;
 import Structures.LinkedList;
 import models.*;
+
 import java.util.function.Predicate;
+
 /*************Example***************
  CLASS: PhonebookCLI.java
  CSC212 Data structures - Project phase I
@@ -30,21 +32,18 @@ public class PhonebookCLI {
         Contact c2 = new Contact("Mohammed alageel", "051", "e1@g.com", "fdsdf", "fsdfds", "dfdsf");
         Contact c3 = new Contact("ahmed asdk", "052", "dkfs", "fdsdf", "fsdfds", "dfdsf");
         Contact c4 = new Contact("ziyad", "053", "dkfs", "fdsdf", "fsdfds", "dfdsf");
-
-        phonebook.addContact(c1);
-        phonebook.addContact(c2);
-        phonebook.addContact(c3);
-        phonebook.addContact(c4);
-
-        phonebook.addContact(c1); //double
         try {
-            phonebook.addEvent("event1", c1.getName(), "2020", "rrr");
-            phonebook.addEvent("event1", c2.getName(), "2022", "r1r");
-
-            phonebook.addEvent("event2", c3.getName(), "2020", "rrr3");
-            phonebook.addEvent("event3", c4.getName(), "2020", "rrr4");
+            phonebook.addContact(c1);
+            phonebook.addContact(c2);
+            phonebook.addContact(c3);
+            phonebook.addContact(c4);
+            phonebook.addContact(c1); //double
+            phonebook.addEvent("event1", c1.getName(), "2020", "rrr", false);
+            phonebook.addEvent("event1", c2.getName(), "2022", "r1r", false);
+            phonebook.addEvent("event2", c3.getName(), "2020", "rrr3", false);
+            phonebook.addEvent("event3", c4.getName(), "2020", "rrr4", false);
+        } catch (Exception ignored) {
         }
-        catch (Exception ignored) {}
 
         phonebook.displayContacts();
     }
@@ -74,11 +73,11 @@ public class PhonebookCLI {
                 String birthDate = inputService.getDate("Enter a birthdate: ");
                 String notes = inputService.getLine("Enter notes: ");
                 Contact c = new Contact(name, phoneNumber, email, address, birthDate, notes);
-                boolean added = phonebook.addContact(c);
-                if (added) {
+                try {
+                    phonebook.addContact(c);
                     System.out.println("Contact added successfully!");
-                } else {
-                    System.out.println("Cant add Contact, already exists");
+                } catch (Exception e) {
+                    System.out.println(e.getMessage());
                 }
             } else if (userInput.equals("2")) {
                 // search for a contact
@@ -131,11 +130,11 @@ public class PhonebookCLI {
             } else if (userInput.equals("3")) {
                 // delete a contact
                 String name = inputService.getLine("Enter the contact's name: ");
-                Contact c = phonebook.deleteContact(name);
-                if (c == null) {
-                    System.out.println("no contact found :(");
-                } else {
+                try {
+                    phonebook.deleteContact(name);
                     System.out.println("Contact deleted!");
+                } catch (Exception e) {
+                    System.out.println(e.getMessage());
                 }
             } else if (userInput.equals("4")) {
                 // Schedule an event
@@ -144,10 +143,9 @@ public class PhonebookCLI {
                 String date = inputService.getDateTime("Enter event date and time (MM/DD/YYYY HH:MM): ");
                 String location = inputService.getLine("Enter event location: ");
                 try {
-                    phonebook.addEvent(title, name, date, location);
+                    phonebook.addEvent(title, name, date, location, false);
                     System.out.println("Event added successfully");
-                }
-                catch (Exception e) {
+                } catch (Exception e) {
                     System.out.println(e.getMessage());
                 }
             } else if (userInput.equals("5")) {

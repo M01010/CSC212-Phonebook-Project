@@ -2,7 +2,9 @@ package models;
 
 import Structures.BST;
 import Structures.LinkedList;
+
 import java.util.function.Predicate;
+
 /*************Example***************
  CLASS: Phonebook.java
  CSC212 Data structures - Project phase I
@@ -28,57 +30,75 @@ public class Phonebook {
 
 
     /**
-     * O(N)
+     * O(n)
      */
-    public boolean addContact(Contact c) {
+    public void addContact(Contact c) throws Exception {
         Predicate<Contact> cond = contact -> c.getName().equalsIgnoreCase(contact.getName()) || c.getPhoneNumber().equalsIgnoreCase(contact.getPhoneNumber());
         Contact result = contacts.search(cond);
-        // didnt find a contact with same name or number
-        if (result == null) {
-            contacts.insert(c.getName(), c);
-            return true;
-        } else {
-            return false;
+        // found a contact with same name or number
+        if (result != null) {
+            throw new Exception("Cant add Contact, already exists");
         }
+        contacts.insert(c.getName(), c);
     }
 
     /**
-     * O(N^2)
+     * O(n log n)
      */
-    public boolean addEvent(String title, String name, String date, String location) throws Exception {
-        Predicate<Contact> cond = contact -> contact.getName().equalsIgnoreCase(name);
-        Contact c = searchContacts(cond);
+    public void addEvent(String title, String name, String date, String location, boolean isAppointment) throws Exception {
+        boolean found = contacts.findkey(name);
+        Contact c = contacts.retrieve();
         // if theres no contact with the same name
-        if (c == null) {
+        if (!found) {
             throw new Exception("Cant add Event, No contact with that name");
         }
-        Predicate<Event> cond2 = event -> event.getDateTime().equalsIgnoreCase(date) && event.contactInEvent(c.getName());
-        Event result = events.search(cond2); // N^2
-        // if contact is not schedueled
-        if (result == null) {
-            // add new event
-            LinkedList<Contact> temp_contacts = new LinkedList<>();
+        Predicate<Event> cond2 = event -> event.getDateTime().equalsIgnoreCase(date) && event.contactInEvent(name);
+        Event result = events.search(cond2); // nlogn
+        if (result != null) {
+            // contact is busy now
+            throw new Exception("Cant add Event, Contact has another event at the same time");
+        }
+        // contact is not schedueled
+        // add new event
+        LinkedList<Contact> temp_contacts = new LinkedList<>();
+        if (isAppointment) {
+            temp_contacts.insert(c);
+            Event newEvent = new Event(title, temp_contacts, date, location, true);
+            events.add(newEvent);
+        } else {
             temp_contacts.insert(c);
             Event newEvent = new Event(title, temp_contacts, date, location, false);
             events.add(newEvent);
-            return true;
         }
-        // contact is busy now
-        throw new Exception("Cant add Event, Contact has another event at the same time");
     }
 
 
     /**
-     * O(N^2)
+     * O(n log n)
      */
-    public Contact deleteContact(String name) {
-        Predicate<Contact> cond = contact -> contact.getName().equalsIgnoreCase(name);
-        Contact c = contacts.delete(cond);
-        if (c != null) {
-            Predicate<Event> cond2 = event -> event.contactInEvent(name);
-            events.deleteAll(cond2);
+    public void deleteContact(String name) throws Exception {
+        boolean deleted = contacts.remove_key(name);
+        if (!deleted) {
+            throw new Exception("no contact found :(");
         }
-        return c;
+        // remove contacts appointments
+        Predicate<Event> cond2 = event -> event.isAppointment() && event.contactInEvent(name);
+        events.deleteAll(cond2);
+
+        // remove contact from all events he is in
+        Predicate<Event> cond3 = event -> !event.isAppointment() && event.contactInEvent(name);
+        LinkedList<Event> l = events.filter(cond3);
+        if (l.empty()) {
+            return;
+        }
+        l.findFirst();
+        while (!l.last()) {
+            Event e = l.retrieve();
+            e.removeContact(name);
+            l.findNext();
+        }
+        Event e = l.retrieve();
+        e.removeContact(name);
     }
 
     /**

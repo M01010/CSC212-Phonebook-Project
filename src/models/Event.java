@@ -43,7 +43,7 @@ public class Event implements Comparable<Event> {
     }
 
     /**
-     * O(N)
+     * O(n)
      * We assume this is O(1) since its a basic operation
      */
     @Override
@@ -58,7 +58,7 @@ public class Event implements Comparable<Event> {
     }
 
     /**
-     * O(N)
+     * O(n)
      * returns all contact names in a string
      */
     private String getContactNames() {
@@ -82,12 +82,10 @@ public class Event implements Comparable<Event> {
     }
 
     /**
-     * O(N)
+     * O(log n)
      */
     public boolean contactInEvent(String name) {
-        Predicate<Contact> cond = contact -> contact.getName().equalsIgnoreCase(name);
-        Contact res = contacts.search(cond);
-        return res != null;
+        return contacts.findkey(name);
     }
 
 
@@ -108,6 +106,13 @@ public class Event implements Comparable<Event> {
     /**
      * O(1)
      */
+    public boolean isAppointment() {
+        return isAppointment;
+    }
+
+    /**
+     * O(1)
+     */
     public String getLocation() {
         return location;
     }
@@ -117,5 +122,12 @@ public class Event implements Comparable<Event> {
      */
     public BST<Contact> getContacts() {
         return contacts;
+    }
+
+    /**
+     * O(log n)
+     */
+    public void removeContact(String name) {
+        contacts.remove_key(name);
     }
 }
