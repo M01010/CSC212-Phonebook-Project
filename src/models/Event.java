@@ -2,8 +2,7 @@ package models;
 
 import Structures.BST;
 import Structures.LinkedList;
-
-import java.util.function.Predicate;
+import Structures.Relative;
 
 /*************Example***************
  CLASS: Event.java
@@ -20,26 +19,47 @@ import java.util.function.Predicate;
 public class Event implements Comparable<Event> {
     private final String title;
     private final BST<Contact> contacts;
-    private final String dateTime;
+    private final String date;
+    private final Time time;
     private final String location;
     private final boolean isAppointment;
 
     /**
      * O(1)
      */
-    public Event(String title, LinkedList<Contact> contacts, String dateTime, String location, boolean isAppointment) {
+    public Event(String title, BST<Contact> contacts, String date, Time time, String location, boolean isAppointment) {
         this.title = title;
-
-        this.contacts = new BST<>();
-        contacts.findFirst();
-        while (!contacts.last()) {
-            this.contacts.insert(contacts.retrieve().getName(), contacts.retrieve());
-        }
-        this.contacts.insert(contacts.retrieve().getName(), contacts.retrieve());
-
-        this.dateTime = dateTime;
+        this.contacts = contacts;
+        this.date = date;
+        this.time = time;
         this.location = location;
         this.isAppointment = isAppointment;
+    }
+
+
+    /**
+     * O(1)
+     */
+    public String getTitle() {
+        return title;
+    }
+
+    /**
+     * O(1)
+     */
+    public boolean isAppointment() {
+        return isAppointment;
+    }
+
+    /**
+     * O(1)
+     */
+    public boolean hasOneContact() {
+        contacts.find(Relative.Root);
+        if (contacts.find(Relative.LeftChild) || contacts.find(Relative.RightChild)) {
+            return false;
+        }
+        return true;
     }
 
     /**
@@ -49,12 +69,12 @@ public class Event implements Comparable<Event> {
     @Override
     public String toString() {
         String s;
-        if (isAppointment) {
+        if (isAppointment() || hasOneContact()) {
             s = "Contact: ";
         } else {
             s = "Contacts: ";
         }
-        return "Event title: " + title + "\n" + s + getContactNames() + "\n" + "Event date and time (MM/DD/YYYY HH:MM): " + dateTime + "\n" + "Event location: " + location;
+        return "Event title: " + title + "\n" + s + getContactNames() + "\n" + "Event date and time (MM/DD/YYYY HH:MM): " + date + " " + time + "\n" + "Event location: " + location;
     }
 
     /**
@@ -66,7 +86,7 @@ public class Event implements Comparable<Event> {
         l.findFirst();
         String res = "";
         while (!l.last()) {
-            res += contacts.retrieve().getName() + " - ";
+            res += contacts.retrieve().getName() + ", ";
             l.findNext();
         }
         res += contacts.retrieve().getName();
@@ -92,36 +112,8 @@ public class Event implements Comparable<Event> {
     /**
      * O(1)
      */
-    public String getTitle() {
-        return title;
-    }
-
-    /**
-     * O(1)
-     */
-    public String getDateTime() {
-        return dateTime;
-    }
-
-    /**
-     * O(1)
-     */
-    public boolean isAppointment() {
-        return isAppointment;
-    }
-
-    /**
-     * O(1)
-     */
-    public String getLocation() {
-        return location;
-    }
-
-    /**
-     * O(1)
-     */
-    public BST<Contact> getContacts() {
-        return contacts;
+    public boolean conflictsWith(String date, Time time) {
+        return this.date.equalsIgnoreCase(date) && this.time.conflictsWith(time);
     }
 
     /**

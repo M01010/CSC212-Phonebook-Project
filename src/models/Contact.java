@@ -1,5 +1,7 @@
 package models;
 
+import Structures.LinkedList;
+
 /*************Example***************
  CLASS: Contact.java
  CSC212 Data structures - Project phase I
@@ -21,6 +23,20 @@ public class Contact implements Comparable<Contact> {
 
     private final String birthDate;
     private final String notes;
+    private final LinkedList<Event> events;
+
+    /**
+     * O(1)
+     */
+    public Contact(String name, String phoneNumber, String email, String address, String brithDate, String notes) {
+        this.name = name;
+        this.address = address;
+        this.birthDate = brithDate;
+        this.notes = notes;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
+        this.events = new LinkedList<>();
+    }
 
     /**
      * O(1)
@@ -58,25 +74,6 @@ public class Contact implements Comparable<Contact> {
     }
 
     /**
-     * O(1)
-     */
-    public String getNotes() {
-        return notes;
-    }
-
-    /**
-     * O(1)
-     */
-    public Contact(String name, String phoneNumber, String email, String address, String brithDate, String notes) {
-        this.name = name;
-        this.address = address;
-        this.birthDate = brithDate;
-        this.notes = notes;
-        this.email = email;
-        this.phoneNumber = phoneNumber;
-    }
-
-    /**
      * Compares 2 Contact names.
      * O(1)
      */
@@ -91,6 +88,22 @@ public class Contact implements Comparable<Contact> {
     @Override
     public String toString() {
         return "Name: " + this.name + "\n" + "Phone Number: " + this.phoneNumber + "\n" + "Email Address: " + this.email + "\n" + "Address: " + this.address + "\n" + "Birthday: " + this.birthDate + "\n" + "Notes: " + this.notes;
+    }
+
+    /**
+     * O(1)
+     */
+    public void addEvent(Event e) {
+        events.insert(e);
+    }
+
+    public void displayEvents() {
+        if (events.empty()) {
+            System.out.println("no events for this contact :(");
+        } else {
+            System.out.println("Events found!");
+            events.display();
+        }
     }
 }
 

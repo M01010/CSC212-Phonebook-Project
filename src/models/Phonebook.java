@@ -37,39 +37,62 @@ public class Phonebook {
         Contact result = contacts.search(cond);
         // found a contact with same name or number
         if (result != null) {
-            throw new Exception("Cant add Contact, already exists");
+            throw new Exception("Can't add Contact, already exists");
         }
         contacts.insert(c.getName(), c);
     }
 
     /**
+     * O(n)
+     */
+    public void addAppointment(String title, String name, String date, Time time, String location) throws Exception {
+        Predicate<Event> cond = event -> event.conflictsWith(date, time);
+        Event result = events.search(cond);
+        if (result != null) {
+            // user is busy now
+            throw new Exception("Can't add Event, you have another event at the same time");
+        }
+        boolean found = contacts.findkey(name);
+        if (!found) {
+            // if theres no contact with the same name
+            throw new Exception("Can't add Event, No contact with that name");
+        }
+        Contact c = contacts.retrieve();
+        // add new event
+        BST<Contact> temp_contacts = new BST<>();
+        temp_contacts.insert(c.getName(), c);
+        Event newEvent = new Event(title, temp_contacts, date, time, location, true);
+        c.addEvent(newEvent);
+        events.add(newEvent);
+    }
+
+    /**
      * O(n log n)
      */
-    public void addEvent(String title, String name, String date, String location, boolean isAppointment) throws Exception {
-        boolean found = contacts.findkey(name);
-        Contact c = contacts.retrieve();
-        // if theres no contact with the same name
-        if (!found) {
-            throw new Exception("Cant add Event, No contact with that name");
-        }
-        Predicate<Event> cond2 = event -> event.getDateTime().equalsIgnoreCase(date) && event.contactInEvent(name);
-        Event result = events.search(cond2); // nlogn
+    public void addEvent(String title, String[] names, String date, Time time, String location) throws Exception {
+        Predicate<Event> cond = event -> event.conflictsWith(date, time);
+        Event result = events.search(cond);
         if (result != null) {
-            // contact is busy now
-            throw new Exception("Cant add Event, Contact has another event at the same time");
+            throw new Exception("Can't add Event, you have another event at the same time");
+            // user has another event at the same time
         }
-        // contact is not schedueled
-        // add new event
-        LinkedList<Contact> temp_contacts = new LinkedList<>();
-        if (isAppointment) {
-            temp_contacts.insert(c);
-            Event newEvent = new Event(title, temp_contacts, date, location, true);
-            events.add(newEvent);
-        } else {
-            temp_contacts.insert(c);
-            Event newEvent = new Event(title, temp_contacts, date, location, false);
-            events.add(newEvent);
+        BST<Contact> temp_contacts = new BST<>();
+        Event newEvent = new Event(title, temp_contacts, date, time, location, false);
+        for (int i = 0; i < names.length; i++) {
+            boolean found = contacts.findkey(names[i]);
+            if (!found) {
+                throw new Exception("Can't add Event, No contact called " + names[i]);
+                //No contact with that name
+            }
+            // add contact to event
+            Contact c = contacts.retrieve();
+            temp_contacts.insert(c.getName(), c);
+            c.addEvent(newEvent);
         }
+        if (temp_contacts.empty()) {
+            throw new Exception("couldn't add event");
+        }
+        events.add(newEvent);
     }
 
 
@@ -81,24 +104,28 @@ public class Phonebook {
         if (!deleted) {
             throw new Exception("no contact found :(");
         }
-        // remove contacts appointments
-        Predicate<Event> cond2 = event -> event.isAppointment() && event.contactInEvent(name);
-        events.deleteAll(cond2);
+        // remove contact's appointments
+        Predicate<Event> cond = event -> event.isAppointment() && event.contactInEvent(name);
+        // remove contact's events he is the last one in
+        Predicate<Event> cond2 = event -> event.hasOneContact() && event.contactInEvent(name);
+        events.deleteAll(cond.or(cond2));
 
         // remove contact from all events he is in
-        Predicate<Event> cond3 = event -> !event.isAppointment() && event.contactInEvent(name);
-        LinkedList<Event> l = events.filter(cond3);
-        if (l.empty()) {
+        if (events.empty()) {
             return;
         }
-        l.findFirst();
-        while (!l.last()) {
-            Event e = l.retrieve();
-            e.removeContact(name);
-            l.findNext();
+        events.findFirst();
+        while (!events.last()) {
+            Event e = events.retrieve();
+            if (e.contactInEvent(name)) {
+                e.removeContact(name);
+            }
+            events.findNext();
         }
-        Event e = l.retrieve();
-        e.removeContact(name);
+        Event e = events.retrieve();
+        if (e.contactInEvent(name)) {
+            e.removeContact(name);
+        }
     }
 
     /**
@@ -109,10 +136,14 @@ public class Phonebook {
     }
 
     /**
-     * O(N)
+     * O(logn)
      */
-    public Event searchEvents(Predicate<Event> cond) {
-        return events.search(cond);
+    public Contact searchContacts(String name) {
+        boolean found = contacts.findkey(name);
+        if (!found) {
+            return null;
+        }
+        return contacts.retrieve();
     }
 
     /**
@@ -122,11 +153,8 @@ public class Phonebook {
         return contacts.filter(cond);
     }
 
-    /**
-     * O(N)
-     */
-    public void displayContacts() {
-        contacts.display();
+    public LinkedList<Event> filterEvents(Predicate<Event> cond) {
+        return events.filter(cond);
     }
 
     /**

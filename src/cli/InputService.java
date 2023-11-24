@@ -1,5 +1,7 @@
 package cli;
 
+import models.Time;
+
 import java.util.Scanner;
 
 /*************Example***************
@@ -67,13 +69,14 @@ public class InputService {
         return s;
     }
 
-    public String getDateTime(String msg) {
+    public Time getTime(String msg) {
         String s = getLine(msg);
-        while (!StringValidator.isDateTime(s)) {
-            System.out.println("Please enter a correct date time (MM/DD/YY HH:MM)");
+        while (!StringValidator.isTime(s)) {
+            System.out.println("Please enter a correct date (HH:MM)");
             s = getLine(msg);
         }
-        return s;
+        String[] x = s.split(":");
+        return new Time(Integer.parseInt(x[0]), Integer.parseInt(x[1]));
     }
 
     public String getNumber(String msg) {
