@@ -33,8 +33,9 @@ public class Phonebook {
      * O(n)
      */
     public void addContact(Contact c) throws Exception {
-        Predicate<Contact> cond = contact -> c.getName().equalsIgnoreCase(contact.getName()) || c.getPhoneNumber().equalsIgnoreCase(contact.getPhoneNumber());
-        Contact result = contacts.search(cond);
+        Predicate<Contact> cond = contact -> contact.getName().equalsIgnoreCase(c.getName());
+        Predicate<Contact> cond2 = contact -> contact.getPhoneNumber().equalsIgnoreCase(c.getPhoneNumber());
+        Contact result = contacts.search(cond.or(cond2));
         // found a contact with same name or number
         if (result != null) {
             throw new Exception("Can't add Contact, already exists");
@@ -49,20 +50,21 @@ public class Phonebook {
         Predicate<Event> cond = event -> event.conflictsWith(date, time);
         Event result = events.search(cond);
         if (result != null) {
-            // user is busy now
+            // user has another event at the same time
             throw new Exception("Can't add Event, you have another event at the same time");
         }
         boolean found = contacts.findkey(name);
         if (!found) {
-            // if theres no contact with the same name
+            // No contact with that name
             throw new Exception("Can't add Event, No contact with that name");
         }
-        Contact c = contacts.retrieve();
-        // add new event
         BST<Contact> temp_contacts = new BST<>();
-        temp_contacts.insert(c.getName(), c);
         Event newEvent = new Event(title, temp_contacts, date, time, location, true);
+        // add new event
+        Contact c = contacts.retrieve();
+        temp_contacts.insert(c.getName(), c);
         c.addEvent(newEvent);
+
         events.add(newEvent);
     }
 
@@ -73,24 +75,25 @@ public class Phonebook {
         Predicate<Event> cond = event -> event.conflictsWith(date, time);
         Event result = events.search(cond);
         if (result != null) {
-            throw new Exception("Can't add Event, you have another event at the same time");
             // user has another event at the same time
+            throw new Exception("Can't add Event, you have another event at the same time");
         }
-        BST<Contact> temp_contacts = new BST<>();
-        Event newEvent = new Event(title, temp_contacts, date, time, location, false);
+        // make sure all contacts exist
         for (int i = 0; i < names.length; i++) {
             boolean found = contacts.findkey(names[i]);
             if (!found) {
+                // No contact with that name
                 throw new Exception("Can't add Event, No contact called " + names[i]);
-                //No contact with that name
             }
-            // add contact to event
+        }
+        BST<Contact> temp_contacts = new BST<>();
+        Event newEvent = new Event(title, temp_contacts, date, time, location, false);
+        // add contacts to event
+        for (int i = 0; i < names.length; i++) {
+            contacts.findkey(names[i]);
             Contact c = contacts.retrieve();
             temp_contacts.insert(c.getName(), c);
             c.addEvent(newEvent);
-        }
-        if (temp_contacts.empty()) {
-            throw new Exception("couldn't add event");
         }
         events.add(newEvent);
     }

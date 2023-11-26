@@ -52,17 +52,6 @@ public class Event implements Comparable<Event> {
     }
 
     /**
-     * O(1)
-     */
-    public boolean hasOneContact() {
-        contacts.find(Relative.Root);
-        if (contacts.find(Relative.LeftChild) || contacts.find(Relative.RightChild)) {
-            return false;
-        }
-        return true;
-    }
-
-    /**
      * O(n)
      * We assume this is O(1) since its a basic operation
      */
@@ -86,10 +75,10 @@ public class Event implements Comparable<Event> {
         l.findFirst();
         String res = "";
         while (!l.last()) {
-            res += contacts.retrieve().getName() + ", ";
+            res += l.retrieve().getName() + ", ";
             l.findNext();
         }
-        res += contacts.retrieve().getName();
+        res += l.retrieve().getName();
         return res;
     }
 
@@ -106,6 +95,17 @@ public class Event implements Comparable<Event> {
      */
     public boolean contactInEvent(String name) {
         return contacts.findkey(name);
+    }
+
+    /**
+     * O(1)
+     */
+    public boolean hasOneContact() {
+        contacts.find(Relative.Root);
+        if (contacts.find(Relative.LeftChild) || contacts.find(Relative.RightChild)) {
+            return false;
+        }
+        return true;
     }
 
 

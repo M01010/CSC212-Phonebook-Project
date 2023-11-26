@@ -130,8 +130,7 @@ public class PhonebookCLI {
                     } catch (Exception e) {
                         System.out.println(e.getMessage());
                     }
-                }
-                else if (choice.equals("2")) {
+                } else if (choice.equals("2")) {
                     String title = inputService.getLine("Enter event title:");
                     String name = inputService.getLine("Enter contact name: ");
                     String date = inputService.getDate("Enter event date (MM/DD/YYYY): ");
@@ -155,6 +154,8 @@ public class PhonebookCLI {
                     Contact c = phonebook.searchContacts(name);
                     if (c != null) {
                         c.displayEvents();
+                    } else {
+                        System.out.println("no contact found :(");
                     }
                 }
                 if (choice.equals("2")) {

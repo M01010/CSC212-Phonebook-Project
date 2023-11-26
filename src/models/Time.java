@@ -13,7 +13,7 @@ public class Time {
         return hours + ":" + minutes;
     }
 
-    public int getTotalMinutes() {
+    private int getTotalMinutes() {
         return hours * 60 + minutes;
     }
 
@@ -22,6 +22,6 @@ public class Time {
         if (diff < 0) {
             diff = -diff;
         }
-        return diff >= 10;
+        return diff <= 10;
     }
 }

@@ -3,9 +3,9 @@ package Structures;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Predicate;
 
-public class BST<T extends Comparable<T>> implements StructureOperations<T> {
+public class BST<T extends Comparable<T>> {
 
-    static class BSTNode<T> {
+    private static class BSTNode<T> {
         private String key;
         private T data;
         private BSTNode<T> left, right;

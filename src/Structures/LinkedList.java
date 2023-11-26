@@ -14,8 +14,8 @@ import java.util.function.Predicate;
  Mohammed, (ID443101692)
  Faris,    (ID443105725)
  ***********************************/
-public class LinkedList<T extends Comparable<T>> implements StructureOperations<T> {
-    public static class Node<T> {
+public class LinkedList<T extends Comparable<T>> {
+    private static class Node<T> {
         private final T data;
         private Node<T> next;
 
@@ -83,22 +83,6 @@ public class LinkedList<T extends Comparable<T>> implements StructureOperations<
             current.next = temp;
             current = current.next;
         }
-    }
-
-    /**
-     * O(N)
-     */
-    public int length() {
-        if (empty()) {
-            return 0;
-        }
-        int count = 0;
-        Node<T> temp = head;
-        while (temp != null) {
-            count++;
-            temp = temp.next;
-        }
-        return count;
     }
 
     /**
