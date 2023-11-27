@@ -101,11 +101,7 @@ public class Event implements Comparable<Event> {
      * O(1)
      */
     public boolean hasOneContact() {
-        contacts.find(Relative.Root);
-        if (contacts.find(Relative.LeftChild) || contacts.find(Relative.RightChild)) {
-            return false;
-        }
-        return true;
+        return contacts.hasOneNode();
     }
 
 

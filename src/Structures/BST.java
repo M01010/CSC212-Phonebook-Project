@@ -124,40 +124,14 @@ public class BST<T extends Comparable<T>> {
         return p;
     }
 
-    public boolean find(Relative rel) {
-        switch (rel) {
-            case Root:    // Easy case
-                current = root;
-                return true;
-            case Parent:
-                if (current == root) return false;
-                current = findparent(current, root);
-                return true;
-            case LeftChild:
-                if (current.left == null) return false;
-                current = current.left;
-                return true;
-            case RightChild:
-                if (current.right == null) return false;
-                current = current.right;
-                return true;
-            default:
-                return false;
+    public boolean hasOneNode() {
+        if (root == null) {
+            return false;
         }
-    }
-
-    // Recursive version of findparent – preorder traversal used
-    private BSTNode<T> findparent(BSTNode<T> p, BSTNode<T> t) {
-        if (t == null) return null;    // empty tree
-
-        if (t.right == null && t.left == null) return null; // can’t be the parent because it has no children
-        else if (t.right == p || t.left == p) return t;    // parent is t
-        else {
-            BSTNode<T> q = findparent(p, t.left);
-            if (q != null) // parent was found in previous call of findparent
-                return q;
-            else return findparent(p, t.right);
+        if (root.left != null || root.right != null) {
+            return false;
         }
+        return true;
     }
 
     public void display() {
@@ -207,26 +181,5 @@ public class BST<T extends Comparable<T>> {
             l.insert(n.data);
         }
         filterrec(n.right, l, condition);
-    }
-
-    public T delete(Predicate<T> condition) {
-        return deleterec(root, condition);
-    }
-
-    private T deleterec(BSTNode<T> n, Predicate<T> condition) {
-        if (n == null) {
-            return null;
-        }
-        T temp = deleterec(n.left, condition);
-        if (temp != null) {
-            return temp;
-        }
-        if (condition.test(n.data)) {
-            T data = n.data;
-            remove_key(n.key);
-            return data;
-        }
-        temp = deleterec(n.right, condition);
-        return temp;
     }
 }
