@@ -1,4 +1,5 @@
 package cli;
+
 /*************Example***************
  CLASS: StringValidator.java
  CSC212 Data structures - Project phase I
@@ -63,21 +64,6 @@ public class StringValidator {
         }
         int m = Integer.parseInt(c[1]);
         if (m < 0 || m > 59) {
-            return false;
-        }
-        return true;
-    }
-
-    public static boolean isDateTime(String s) {
-        String[] c = s.split(" ");
-        // string formatted as x y
-        if (c.length != 2) {
-            return false;
-        } // first is date and second is time
-        if (!isDate(c[0])) {
-            return false;
-        }
-        if (!isTime(c[1])) {
             return false;
         }
         return true;

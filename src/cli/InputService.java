@@ -72,7 +72,7 @@ public class InputService {
     public Time getTime(String msg) {
         String s = getLine(msg);
         while (!StringValidator.isTime(s)) {
-            System.out.println("Please enter a correct date (HH:MM)");
+            System.out.println("Please enter a correct time (HH:MM)");
             s = getLine(msg);
         }
         String[] x = s.split(":");
