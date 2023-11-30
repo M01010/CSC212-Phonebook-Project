@@ -7,10 +7,10 @@ import java.util.function.Predicate;
 
 /*************Example***************
  CLASS: PhonebookCLI.java
- CSC212 Data structures - Project phase I
+ CSC212 Data structures - Project phase II
  Fall 2023
  EDIT DATE:
- 10/17/2023
+ 11/30/2023
  TEAM:
  farmers
  AUTHORS:
@@ -123,7 +123,7 @@ public class PhonebookCLI {
                 l = phonebook.filterContacts(cond);
             } else {
                 String birthday = inputService.getDate("Enter the contact's birthday: ");
-                Predicate<Contact> cond = contact -> contact.getBirthDate().equalsIgnoreCase(birthday);
+                Predicate<Contact> cond = contact -> contact.getBirthday().equalsIgnoreCase(birthday);
                 l = phonebook.filterContacts(cond);
             }
             if (l.empty()) {

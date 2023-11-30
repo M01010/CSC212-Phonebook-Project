@@ -3,6 +3,17 @@ package Structures;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Predicate;
 
+/*************Example***************
+ CLASS: BST.java
+ CSC212 Data structures - Project phase II
+ Fall 2023
+ EDIT DATE:
+ 11/28/2023
+ TEAM:
+ farmers
+ AUTHORS:
+ Mohammed, (ID443101692)
+ ***********************************/
 public class BST<T extends Comparable<T>> {
 
     private static class BSTNode<T> {

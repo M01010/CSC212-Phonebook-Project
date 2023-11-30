@@ -1,5 +1,15 @@
 package models;
-
+/*************Example***************
+ CLASS: Time.java
+ CSC212 Data structures - Project phase II
+ Fall 2023
+ EDIT DATE:
+ 11/26/2023
+ TEAM:
+ farmers
+ AUTHORS:
+ Mohammed, (ID443101692)
+ ***********************************/
 public class Time {
     private final int hours;
     private final int minutes;

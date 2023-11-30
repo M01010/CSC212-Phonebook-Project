@@ -2,14 +2,13 @@ package models;
 
 import Structures.BST;
 import Structures.LinkedList;
-import Structures.Relative;
 
 /*************Example***************
  CLASS: Event.java
- CSC212 Data structures - Project phase I
+ CSC212 Data structures - Project phase II
  Fall 2023
  EDIT DATE:
- 10/17/2023
+ 11/30/2023
  TEAM:
  farmers
  AUTHORS:

@@ -1,7 +1,7 @@
 import cli.PhonebookCLI;
 /*************Example***************
  CLASS: Main.java
- CSC212 Data structures - Project phase I
+ CSC212 Data structures - Project phase II
  Fall 2023
  EDIT DATE:
  10/16/2023

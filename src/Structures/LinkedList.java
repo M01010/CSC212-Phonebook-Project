@@ -4,10 +4,10 @@ import java.util.function.Predicate;
 
 /*************Example***************
  CLASS: LinkedList.java
- CSC212 Data structures - Project phase I
+ CSC212 Data structures - Project phase II
  Fall 2023
  EDIT DATE:
- 10/17/2023
+ 11/26/2023
  TEAM:
  farmers
  AUTHORS:

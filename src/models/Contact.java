@@ -4,10 +4,10 @@ import Structures.LinkedList;
 
 /*************Example***************
  CLASS: Contact.java
- CSC212 Data structures - Project phase I
+ CSC212 Data structures - Project phase II
  Fall 2023
  EDIT DATE:
- 10/5/2023
+ 11/30/2023
  TEAM:
  farmers
  AUTHORS:
@@ -21,17 +21,17 @@ public class Contact implements Comparable<Contact> {
     private final String email;
     private final String address;
 
-    private final String birthDate;
+    private final String birthday;
     private final String notes;
     private final LinkedList<Event> events;
 
     /**
      * O(1)
      */
-    public Contact(String name, String phoneNumber, String email, String address, String brithDate, String notes) {
+    public Contact(String name, String phoneNumber, String email, String address, String brithday, String notes) {
         this.name = name;
         this.address = address;
-        this.birthDate = brithDate;
+        this.birthday = brithday;
         this.notes = notes;
         this.email = email;
         this.phoneNumber = phoneNumber;
@@ -69,8 +69,8 @@ public class Contact implements Comparable<Contact> {
     /**
      * O(1)
      */
-    public String getBirthDate() {
-        return birthDate;
+    public String getBirthday() {
+        return birthday;
     }
 
     /**
@@ -87,7 +87,7 @@ public class Contact implements Comparable<Contact> {
      */
     @Override
     public String toString() {
-        return "Name: " + this.name + "\n" + "Phone Number: " + this.phoneNumber + "\n" + "Email Address: " + this.email + "\n" + "Address: " + this.address + "\n" + "Birthday: " + this.birthDate + "\n" + "Notes: " + this.notes;
+        return "Name: " + this.name + "\n" + "Phone Number: " + this.phoneNumber + "\n" + "Email Address: " + this.email + "\n" + "Address: " + this.address + "\n" + "Birthday: " + this.birthday + "\n" + "Notes: " + this.notes;
     }
 
     /**
